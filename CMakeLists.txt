@@ -3,7 +3,7 @@ project(OpenCL_Evaluation_Graph VERSION 0.0.1 DESCRIPTION "OpenCL evaluation gra
 
 include(GNUInstallDirs)
 
-add_library(OpenCLEvaluationGraph SHARED src/NodeImpl.cpp header/Node.h)
+add_library(OpenCLEvaluationGraph SHARED src/NodeImpl.cpp header/Node.h src/Node.cpp src/NodeImpl.h)
 set_target_properties(OpenCLEvaluationGraph PROPERTIES
         VERSION ${PROJECT_VERSION}
         SOVERSION 1
@@ -11,10 +11,15 @@ set_target_properties(OpenCLEvaluationGraph PROPERTIES
 
 target_include_directories(OpenCLEvaluationGraph PRIVATE .)
 
-install(TARGETS OpenCLEvaluationGraph
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+if(WIN32)
+    install(TARGETS OpenCLEvaluationGraph
+            RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+else()
+    install(TARGETS OpenCLEvaluationGraph
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+endif()
 
 set(CMAKE_CXX_STANDARD 14)
-
-#add_executable(OpenCL_Evaluation_Graph main.cpp)
