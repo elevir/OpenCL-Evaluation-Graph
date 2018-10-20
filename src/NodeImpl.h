@@ -1,8 +1,21 @@
-//
-// Created by pav on 20/10/2018.
-//
+#pragma once
 
-#ifndef OPENCL_EVALUATION_GRAPH_NODEIMPL_H
-#define OPENCL_EVALUATION_GRAPH_NODEIMPL_H
+#include <atomic>
+#include <cstddef>
+#include "Data.h"
 
-#endif //OPENCL_EVALUATION_GRAPH_NODEIMPL_H
+namespace cl_graph {
+
+class NodeImpl
+{
+public:
+    virtual Data evaluate() = 0;
+
+    void retain();
+    void release();
+
+private:
+    std::atomic<size_t> m_ref_counter {1};
+};
+
+}
