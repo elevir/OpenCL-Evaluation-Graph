@@ -1,6 +1,6 @@
 #include "Data.h"
 #include "Device.h"
-#include "NodeImpl.h"
+#include "INode.h"
 #include "Node.h"
 #include "NodeAdd.h"
 #include "NodeMul.h"
@@ -9,7 +9,7 @@
 
 namespace cl_graph {
 
-Node::Node(NodeImpl * impl)
+Node::Node(INode * impl)
     : m_impl(impl)
 { }
 
@@ -18,11 +18,7 @@ Node::Node(Data & data)
 { }
 
 Node::Node(Node & node) : m_impl(node.m_impl)
-{
-    if (m_impl) {
-        m_impl->retain();
-    }
-}
+{ }
 
 Node Node::add_node(Node & left, Node & right, const Device & device) {
     return new NodeAdd(left, right, device);
@@ -42,12 +38,6 @@ Node Node::abs_node(const Node & op, const Device & device) {
 
 Node Node::sqrt_node(const Node & op, const Device & device) {
     return nullptr;
-}
-
-Node::~Node() {
-    if (m_impl) {
-        m_impl->release();
-    }
 }
 
 Data Node::evaluate() {

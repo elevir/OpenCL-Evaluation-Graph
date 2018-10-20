@@ -28,7 +28,7 @@ Data NodeAdd::evaluate()
         for (size_t i = 0; i < sz; ++i) {
             res[i] = data_left[i] + data_right[i];
         }
-        return Data(res, left_data.get_impl()->get_shape());
+        return Data(std::move(res), left_data.get_impl()->get_shape());
     }
     return {};
 }

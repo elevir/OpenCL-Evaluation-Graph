@@ -1,11 +1,11 @@
 #pragma once
 
 #include <Node.h>
-#include "NodeImpl.h"
+#include "INode.h"
 
 namespace cl_graph {
 
-class NodeMul : public NodeImpl {
+class NodeMul : public INode {
 public:
     NodeMul(Node & left, Node & right, const Device & device);
 

@@ -5,17 +5,17 @@
 
 namespace cl_graph {
 
-class NodeImpl;
+class INode;
 
 class Node
 {
-    Node(NodeImpl * impl);
+    Node(INode * impl);
 public:
     Node() = default;
     Node(Node &);
     Node(Node &&) = default;
     Node(Data &);
-    ~Node();
+    ~Node() = default;
 
     Data evaluate();
 
@@ -27,7 +27,7 @@ public:
     static Node sqrt_node(const Node & op, const Device & device = Device::get_default());
 
 private:
-    NodeImpl * m_impl = nullptr;
+    std::shared_ptr<INode> m_impl;
 };
 
 };

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Data.h"
-#include "NodeImpl.h"
+#include "INode.h"
 
 namespace cl_graph {
 
-class NodeData : public NodeImpl {
+class NodeData : public INode {
 
 public:
     NodeData(Data & data);

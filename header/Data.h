@@ -11,16 +11,21 @@ class DataImpl;
 class Data
 {
 public:
-    Data() = default;
+    Data();
+    Data(const Data &) = default;
+    Data(Data &&) = default;
     Data(std::vector<float> container, std::vector<size_t> shape);
 
-    bool download(std::vector<float> & data, std::vector<size_t> & shape);
+    Data & operator=(const Data &) = delete;
+
+    bool download(std::vector<float> & data, std::vector<size_t> & shape) const;
+    bool upload(std::vector<float> data, std::vector<size_t> shape);
 
     bool empty() const;
 
     const DataImpl * get_impl() const;
 private:
-    DataImpl * m_impl = nullptr;
+    std::shared_ptr<DataImpl> m_impl;
 };
 
 

@@ -8,9 +8,9 @@ include(GNUInstallDirs)
 include_directories(header)
 
 add_library(OpenCLEvaluationGraph SHARED header/Node.h
-        src/Node.cpp src/NodeImpl.h
+        src/Node.cpp src/INode.h
         header/Data.h header/Device.h src/NodeAdd.cpp
-        src/NodeAdd.h src/Device.cpp src/NodeImpl.cpp
+        src/NodeAdd.h src/Device.cpp
         src/NodeData.cpp src/NodeData.h src/NodeMul.cpp src/NodeMul.h
         src/DataImpl.cpp src/DataImpl.h src/Data.cpp)
 set_target_properties(OpenCLEvaluationGraph PROPERTIES

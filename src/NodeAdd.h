@@ -2,11 +2,11 @@
 
 #include "Device.h"
 #include "Node.h"
-#include "NodeImpl.h"
+#include "INode.h"
 
 namespace cl_graph {
 
-class NodeAdd : public NodeImpl {
+class NodeAdd : public INode {
 public:
     NodeAdd(Node & left, Node & right, const Device & device);
 
