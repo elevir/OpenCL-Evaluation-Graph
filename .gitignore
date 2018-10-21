@@ -3,3 +3,16 @@ cmake-build-debug
 .exe
 .so
 .idea
+/.vs
+/CMakeFiles
+/ZERO_CHECK.vcxproj.filters
+/ZERO_CHECK.vcxproj
+/OpenCL_Evaluation_Graph.sln
+/OpenCLEvaluationGraph.vcxproj.filters
+/OpenCLEvaluationGraph.vcxproj
+/INSTALL.vcxproj.filters
+/INSTALL.vcxproj
+/cmake_install.cmake
+/CMakeCache.txt
+/ALL_BUILD.vcxproj.filters
+/ALL_BUILD.vcxproj

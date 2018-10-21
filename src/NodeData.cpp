@@ -1,13 +1,16 @@
+#define DllExport __declspec( dllexport )
+
+#include "dll_macros.h"
 #include "NodeData.h"
 
 namespace cl_graph {
 
-NodeData::NodeData(Data & data)
+OPENCL_EVAL_G_API NodeData::NodeData(Data & data)
     : m_data(data)
 { }
 
 
-Data NodeData::evaluate()
+OPENCL_EVAL_G_API Data NodeData::evaluate()
 {
     return m_data;
 }

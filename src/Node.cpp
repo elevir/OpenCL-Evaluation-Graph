@@ -1,3 +1,6 @@
+#define DllExport __declspec( dllexport )
+
+#include "dll_macros.h"
 #include "Data.h"
 #include "Device.h"
 #include "INode.h"
@@ -9,38 +12,38 @@
 
 namespace cl_graph {
 
-Node::Node(INode * impl)
+OPENCL_EVAL_G_API Node::Node(INode * impl)
     : m_impl(impl)
 { }
 
-Node::Node(Data & data)
+OPENCL_EVAL_G_API Node::Node(Data & data)
     : m_impl(new NodeData(data))
 { }
 
-Node::Node(Node & node) : m_impl(node.m_impl)
+OPENCL_EVAL_G_API Node::Node(Node & node) : m_impl(node.m_impl)
 { }
 
-Node Node::add_node(Node & left, Node & right, const Device & device) {
+OPENCL_EVAL_G_API Node Node::add_node(Node & left, Node & right, const Device & device) {
     return new NodeAdd(left, right, device);
 }
 
-Node Node::mul_node(Node & left, Node & right, const Device & device) {
+OPENCL_EVAL_G_API Node Node::mul_node(Node & left, Node & right, const Device & device) {
     return new NodeMul(left, right, device);
 }
 
-Node Node::element_wise_mul_node(const Node & left, const Node & right, const Device & device) {
+OPENCL_EVAL_G_API Node Node::element_wise_mul_node(const Node & left, const Node & right, const Device & device) {
     return nullptr;
 }
 
-Node Node::abs_node(const Node & op, const Device & device) {
+OPENCL_EVAL_G_API Node Node::abs_node(const Node & op, const Device & device) {
     return nullptr;
 }
 
-Node Node::sqrt_node(const Node & op, const Device & device) {
+OPENCL_EVAL_G_API Node Node::sqrt_node(const Node & op, const Device & device) {
     return nullptr;
 }
 
-Data Node::evaluate() {
+OPENCL_EVAL_G_API Data Node::evaluate() {
     return m_impl ? m_impl->evaluate() : Data();
 }
 

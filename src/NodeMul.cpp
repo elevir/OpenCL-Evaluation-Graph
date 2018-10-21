@@ -1,8 +1,11 @@
+#define DllExport __declspec( dllexport )
+
+#include "dll_macros.h"
 #include "NodeMul.h"
 
 namespace cl_graph {
 
-NodeMul::NodeMul(Node & left, Node & right, const Device & device)
+OPENCL_EVAL_G_API NodeMul::NodeMul(Node & left, Node & right, const Device & device)
     : m_left(left),
       m_right(right),
       m_device(device)
@@ -10,7 +13,7 @@ NodeMul::NodeMul(Node & left, Node & right, const Device & device)
 
 }
 
-Data NodeMul::evaluate()
+OPENCL_EVAL_G_API Data NodeMul::evaluate()
 {
     Data left_data = m_left.evaluate();
     Data right_data = m_right.evaluate();

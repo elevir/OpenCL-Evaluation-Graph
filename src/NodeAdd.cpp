@@ -1,15 +1,23 @@
+#define DllExport __declspec( dllexport )
+
+#ifdef WIN32
+#include <assert.h>
+#endif
+
+#include "dll_macros.h"
 #include "NodeAdd.h"
 #include "DataImpl.h"
 
+
 namespace cl_graph {
 
-NodeAdd::NodeAdd(Node & left, Node & right, const Device & device)
+OPENCL_EVAL_G_API NodeAdd::NodeAdd(Node & left, Node & right, const Device & device)
     : m_left(left),
       m_right(right),
       m_device(device)
 { }
 
-Data NodeAdd::evaluate()
+OPENCL_EVAL_G_API Data NodeAdd::evaluate()
 {
     Data left_data = m_left.evaluate();
     Data right_data = m_right.evaluate();
