@@ -1,4 +1,3 @@
-#include "dll_macros.h"
 #include "NodeData.h"
 
 namespace cl_graph {

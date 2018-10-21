@@ -1,5 +1,6 @@
 #pragma once
 
+#include "dll_macros.h"
 #include "Device.h"
 #include "Node.h"
 #include "INode.h"
@@ -8,9 +9,9 @@ namespace cl_graph {
 
 class NodeAdd : public INode {
 public:
-    NodeAdd(Node & left, Node & right, const Device & device);
+    OPENCL_EVAL_G_API NodeAdd(Node & left, Node & right, const Device & device);
 
-    Data evaluate() final;
+	OPENCL_EVAL_G_API Data evaluate() final;
 
 private:
     Node m_left;

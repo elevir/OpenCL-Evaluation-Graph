@@ -1,4 +1,3 @@
-#include "dll_macros.h"
 #include "Data.h"
 #include "Device.h"
 #include "INode.h"
@@ -10,7 +9,7 @@
 
 namespace cl_graph {
 
-OPENCL_EVAL_G_API Node::Node(INode * impl)
+Node::Node(INode * impl)
     : m_impl(impl)
 { }
 

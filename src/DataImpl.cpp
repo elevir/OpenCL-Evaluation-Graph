@@ -1,4 +1,3 @@
-#include "dll_macros.h"
 #include "DataImpl.h"
 
 namespace cl_graph {

@@ -19,3 +19,7 @@ cmake-build-debug
 /x64/Debug/ZERO_CHECK
 /OpenCLEvaluationGraph.dir/Debug
 /OpenCLEvaluationGraph.vcxproj.user
+/OpenCLEvaluationGraph.dir/Release
+/Debug
+/Release
+/x64/Release/ZERO_CHECK

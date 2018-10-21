@@ -1,5 +1,6 @@
 #pragma once
 
+#include "dll_macros.h"
 #include <vector>
 
 namespace cl_graph {
@@ -17,11 +18,11 @@ public:
     };
 
     // static methods, not thread safe:
-    static std::vector<Device> get_all_devices() { return {NOT_CL_CPU}; } // TODO: implement get_all_devices
-    static const Device & get_default() { return default_device; }
-    static const void set_default(Device & device) { default_device = device; }
+	OPENCL_EVAL_G_API static std::vector<Device> get_all_devices() { return { Device(NOT_CL_CPU) }; } // TODO: implement get_all_devices
+	OPENCL_EVAL_G_API static const Device & get_default() { return default_device; }
+	OPENCL_EVAL_G_API static const void set_default(Device & device) { default_device = device; }
 
-    Type get_type() const { return m_type; }
+	OPENCL_EVAL_G_API Type get_type() const { return m_type; }
 
 private:
     Device(Type type);

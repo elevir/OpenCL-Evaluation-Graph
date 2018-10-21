@@ -2,7 +2,6 @@
 #include <assert.h>
 #endif
 
-#include "dll_macros.h"
 #include "NodeAdd.h"
 #include "DataImpl.h"
 
