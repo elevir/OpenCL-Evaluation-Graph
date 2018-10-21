@@ -1,5 +1,3 @@
-#define DllExport __declspec( dllexport )
-
 #include "dll_macros.h"
 #include "Device.h"
 

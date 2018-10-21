@@ -1,5 +1,3 @@
-#define DllExport __declspec( dllexport )
-
 #ifdef WIN32
 #include <assert.h>
 #endif

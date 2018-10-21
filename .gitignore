@@ -16,3 +16,6 @@ cmake-build-debug
 /CMakeCache.txt
 /ALL_BUILD.vcxproj.filters
 /ALL_BUILD.vcxproj
+/x64/Debug/ZERO_CHECK
+/OpenCLEvaluationGraph.dir/Debug
+/OpenCLEvaluationGraph.vcxproj.user
