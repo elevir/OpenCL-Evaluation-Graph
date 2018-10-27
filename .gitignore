@@ -23,3 +23,10 @@ cmake-build-debug
 /Debug
 /Release
 /x64/Release/ZERO_CHECK
+/googletest-src
+/googletest-build
+/googletest-download
+/Tests.dir/Debug/Tests.tlog
+/x64/Debug/ALL_BUILD/ALL_BUILD.tlog
+/Tests.vcxproj.filters
+/Tests.vcxproj
