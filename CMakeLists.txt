@@ -69,3 +69,10 @@ target_link_libraries(Tests gtest_main OpenCLEvaluationGraph)
 #add_test(NAME example_test COMMAND example)
 
 add_definitions(-DDllExport)
+
+include(cmake/oxygen/macro.cmake)
+
+SET(DOXY_OUTPUT_LANGUAGE "Russian")
+SET(DOXY_INPUT ${PROJECT_SOURCE_DIR})
+ADD_DOCUMENTATION(doc Doxyfile)
+
