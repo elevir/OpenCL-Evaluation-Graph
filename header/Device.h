@@ -2,6 +2,7 @@
 
 #include "dll_macros.h"
 #include <vector>
+#include <CL/cl.h>
 
 namespace cl_graph {
 
@@ -26,11 +27,13 @@ public:
 
 private:
     Device(Type type);
+	Device(cl_device_id clType);
 
 private:
     static Device default_device;
-
+	
     Type m_type = NOT_CL_CPU;
+	cl_device_id m_device_id;
 };
 
 }

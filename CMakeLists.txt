@@ -45,7 +45,8 @@ add_library(OpenCLEvaluationGraph SHARED header/Node.h
         src/NodeAdd.h src/Device.cpp
         src/NodeData.cpp src/NodeData.h src/NodeMul.cpp src/NodeMul.h
         src/DataImpl.cpp src/DataImpl.h src/Data.cpp
-		header/dll_macros.h)
+		header/dll_macros.h
+		header/CLHelper.h src/CLHelper.cpp)
 set_target_properties(OpenCLEvaluationGraph PROPERTIES
         VERSION ${PROJECT_VERSION}
         SOVERSION 1
@@ -76,3 +77,7 @@ SET(DOXY_OUTPUT_LANGUAGE "Russian")
 SET(DOXY_INPUT ${PROJECT_SOURCE_DIR})
 ADD_DOCUMENTATION(doc Doxyfile)
 
+include(cmake/opencl/FindOpenCL.cmake)
+find_package(OpenCL REQUIRED)
+include_directories(${OPENCL_INCLUDE_DIRS})
+target_link_libraries(OpenCLEvaluationGraph ${OPENCL_LIBRARIES})
