@@ -1,8 +1,8 @@
 #include <limits.h>
-#include "../header/Device.h"
-#include "../src/INode.h"
-#include "../src/NodeData.h"
-#include "../src/NodeAdd.h"
+#include <Device.h>
+#include <INode.h>
+#include <NodeData.h>
+#include <NodeAdd.h>
 #include "gtest/gtest.h"
 namespace {
 

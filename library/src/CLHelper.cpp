@@ -1,5 +1,9 @@
 #include "CLHelper.h"
 
+std::vector<cl_platform_id> CLHelper::m_all_platforms;
+std::vector<cl_device_id> CLHelper::m_all_devices;
+cl_device_id CLHelper::m_default;
+
 CLHelper::CLHelper() {
 	cl_uint countOfPatforms;
 	clGetPlatformIDs(0, NULL, &countOfPatforms);
@@ -13,6 +17,7 @@ CLHelper::CLHelper() {
 		m_all_devices.insert(m_all_devices.end(), all_devices_for_platform.begin(), all_devices_for_platform.end());
 	}
 }
+
 cl_device_id CLHelper::get_default() {
 	return m_default;
 }
@@ -33,7 +38,7 @@ std::string CLHelper::get_device_name(const cl_device_id& device_id) {
 	return name;
 }
 
-static cl_device_info get_device_type(const cl_device_id& device_id) {
+cl_device_info CLHelper::get_device_type(const cl_device_id& device_id) {
 	cl_device_info type;
 	clGetDeviceInfo(device_id, CL_DEVICE_TYPE, sizeof(cl_device_info), &type, NULL);
 	return type;

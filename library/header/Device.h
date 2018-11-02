@@ -9,6 +9,7 @@ namespace cl_graph {
 class Device
 {
 public:
+
     enum Type {
         DEFAULT,
         GPU,
@@ -25,12 +26,15 @@ public:
 
 	OPENCL_EVAL_G_API Type get_type() const { return m_type; }
 
-private:
+//private:
+	Device();
     Device(Type type);
 	Device(cl_device_id clType);
 
 private:
     static Device default_device;
+	static cl_device_info fromOLEG2CL(const Device::Type& type);
+	static Type fromCL2OLEG(const cl_device_info& cl_type);
 	
     Type m_type = NOT_CL_CPU;
 	cl_device_id m_device_id;
