@@ -28,19 +28,6 @@ endif()
 
 add_definitions(-DDllExport)
 
-#include(cmake/oxygen/macro.cmake)
-
-#SET(DOXY_OUTPUT_LANGUAGE "Russian")
-#SET(DOXY_INPUT ${PROJECT_SOURCE_DIR})
-#ADD_DOCUMENTATION(doc Doxyfile)
-
-#find_package(Doxygen)
-#set(DOXYGEN_GENERATE_HTML YES)
-#doxygen_add_docs(targetName
-#    Doxyfile
-#    ${PROJECT_SOURCE_DIR}
-#    COMMENT "Generate man pages")
-
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/opencl/FindOpenCL.cmake)
 find_package(OpenCL REQUIRED)
 include_directories(${OPENCL_INCLUDE_DIRS})
