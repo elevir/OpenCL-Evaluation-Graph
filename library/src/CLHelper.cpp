@@ -22,11 +22,11 @@ cl_device_id CLHelper::get_default() {
 	return m_default;
 }
 
-std::vector<cl_device_id> CLHelper::get_all_devices() {
+const std::vector<cl_device_id>& CLHelper::get_all_devices() {
 	return m_all_devices;
 }
 
-std::vector<cl_platform_id> CLHelper::get_all_platforms() {
+const std::vector<cl_platform_id>& CLHelper::get_all_platforms() {
 	return m_all_platforms;
 }
 

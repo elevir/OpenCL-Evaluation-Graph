@@ -9,7 +9,7 @@ add_subdirectory(library)
 add_subdirectory(tests)
 add_subdirectory(example)
 
-set_target_properties( OpenCLEvaluationGraph Tests
+set_target_properties( OpenCLEvaluationGraph Tests Example
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"

@@ -27,9 +27,9 @@ public:
 	OPENCL_EVAL_G_API Type get_type() const { return m_type; }
 
 //private:
-	Device();
-    Device(Type type);
-	Device(cl_device_id clType);
+	OPENCL_EVAL_G_API Device();
+	OPENCL_EVAL_G_API Device(Type type);
+	OPENCL_EVAL_G_API Device(cl_device_id clType);
 
 private:
     static Device default_device;

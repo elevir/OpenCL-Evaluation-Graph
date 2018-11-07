@@ -39,9 +39,9 @@ Device::Device() : m_type(Type::INVALID), m_device_id() {}
 
 Device::Device(Type type) {
 	auto devices = CLHelper::get_all_devices();
-	for (int i = 0; i < devices.size(); ++i) {
-		if (fromCL2OLEG(CLHelper::get_device_type(devices[i])) == type) {
-			m_device_id = devices[i];
+	for (const auto & cl_device_id : CLHelper::get_all_devices()) {
+		if (fromCL2OLEG(CLHelper::get_device_type(cl_device_id)) == type) {
+			m_device_id = cl_device_id;
 			m_type = type;
 			break;
 		}

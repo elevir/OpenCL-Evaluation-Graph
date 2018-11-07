@@ -28,6 +28,9 @@ endif()
 
 add_definitions(-DDllExport)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/oxygen/doxygen.cmake)
+ADD_DOCUMENTATION(doc Doxyfile)
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/opencl/FindOpenCL.cmake)
 find_package(OpenCL REQUIRED)
 include_directories(${OPENCL_INCLUDE_DIRS})
