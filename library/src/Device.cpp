@@ -33,7 +33,7 @@ Device::Type Device::fromCL2OLEG(const cl_device_info& cl_type) {
 	}
 }
 
-Device Device::default_device {	CLHelper::get_default() };
+Device Device::default_device {	Type::DEFAULT };
 
 Device::Device() : m_type(Type::INVALID), m_device_id() {}
 
