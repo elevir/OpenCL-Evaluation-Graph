@@ -14,7 +14,7 @@
 
 #else
 
-#define OPENCV_EVAL_G_API
+#define OPENCL_EVAL_G_API
 
 #endif // WIN32
 
