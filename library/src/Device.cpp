@@ -38,7 +38,7 @@ OPENCL_EVAL_G_API std::vector<Device> Device::get_all_devices()
             all_devices.push_back(Device(std::make_shared<DeviceImpl>(cl_device)));
         }
     }
-	return all_devices;
+    return all_devices;
 }
 
 OPENCL_EVAL_G_API Device Device::get_default()
