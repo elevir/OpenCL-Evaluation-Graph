@@ -1,13 +1,28 @@
 include_directories(header)
 
-add_library(OpenCLEvaluationGraph SHARED header/Node.h
-        src/Node.cpp header/INode.h
-        header/Data.h header/Device.h src/NodeAdd.cpp
-        header/NodeAdd.h src/Device.cpp
-        src/NodeData.cpp header/NodeData.h src/NodeMul.cpp header/NodeMul.h
-        src/DataImpl.cpp header/DataImpl.h src/Data.cpp
-		header/dll_macros.h
-		header/CLHelper.h src/CLHelper.cpp)
+add_library(OpenCLEvaluationGraph SHARED
+        header/dll_macros.h
+        header/Data.h
+        header/Device.h
+        header/Node.h
+
+        src/Data.cpp
+        src/DataImpl.h
+        src/DataImpl.cpp
+        src/Device.cpp
+        src/DeviceImpl.h
+        src/DeviceImpl.cpp
+        src/INode.h
+        src/helpers/opencl.h
+        src/Node.cpp
+        src/NodeAdd.h
+        src/NodeAdd.cpp
+        src/NodeData.h
+        src/NodeData.cpp
+        src/NodeMul.h
+        src/NodeMul.cpp
+
+        src/helpers/CLTypeConverters.h)
 set_target_properties(OpenCLEvaluationGraph PROPERTIES
         VERSION ${PROJECT_VERSION}
         SOVERSION 1
