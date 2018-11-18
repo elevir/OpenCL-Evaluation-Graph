@@ -7,17 +7,21 @@ namespace cl_graph {
 
 class DeviceImpl;
 
+/**
+ * Object describing the device
+ */
 class Device
 {
 public:
 
+    /** Type of device */
     enum Type {
-        DEFAULT,
-        GPU,
-        FPGA,
-        CPU,
-        NOT_CL_CPU,
-        INVALID
+        DEFAULT,        /**< Default type */
+        GPU,            /**< GPU Device */
+        FPGA,           /**< FPGE Device */
+        CPU,            /**< CPU Device */
+        NOT_CL_CPU,     /**< CPU Device with CL */
+        INVALID         /**< Invalid device */
     };
 
 public:
