@@ -5,7 +5,6 @@ add_library(OpenCLEvaluationGraph SHARED
         header/Data.h
         header/Device.h
         header/Node.h
-
         src/Data.cpp
         src/DataImpl.h
         src/DataImpl.cpp
@@ -21,8 +20,8 @@ add_library(OpenCLEvaluationGraph SHARED
         src/NodeData.cpp
         src/NodeMul.h
         src/NodeMul.cpp
-
         src/helpers/CLTypeConverters.h)
+
 set_target_properties(OpenCLEvaluationGraph PROPERTIES
         VERSION ${PROJECT_VERSION}
         SOVERSION 1
