@@ -19,6 +19,7 @@ Device::Device(std::shared_ptr<DeviceImpl> device) :m_device_impl(std::move(devi
 OPENCL_EVAL_G_API std::vector<Device> Device::get_all_devices()
 {
     if (all_devices.empty()) {
+        all_devices.push_back(Device(std::make_shared<DeviceImpl>(Type::NOT_CL_CPU)));
         cl_uint countOfPatforms;
         clGetPlatformIDs(0, nullptr, &countOfPatforms);
         std::vector<cl_platform_id> all_platforms;

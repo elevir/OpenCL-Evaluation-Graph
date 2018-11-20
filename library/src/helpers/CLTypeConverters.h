@@ -16,7 +16,7 @@ cl_device_info fromOLEG2CL(const Device::Type& type) {
     }
 }
 
-Device::Type fromCL2OLEG(const cl_device_info& cl_type) {
+Device::Type fromCL2OLEG(const cl_device_type & cl_type) {
     switch (cl_type)
     {
         case CL_DEVICE_TYPE_CPU:

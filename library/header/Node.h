@@ -15,7 +15,7 @@ public:
 	OPENCL_EVAL_G_API Node() = default;
 	OPENCL_EVAL_G_API Node(Node &);
 	OPENCL_EVAL_G_API Node(Node &&) = default;
-	OPENCL_EVAL_G_API Node(Data &);
+	OPENCL_EVAL_G_API Node(const Data &);
 	OPENCL_EVAL_G_API ~Node() = default;
 
 	OPENCL_EVAL_G_API Data evaluate();

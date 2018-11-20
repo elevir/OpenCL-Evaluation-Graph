@@ -9,7 +9,7 @@ namespace cl_graph {
 class NodeData : public INode {
 
 public:
-    OPENCL_EVAL_G_API NodeData(Data & data);
+    OPENCL_EVAL_G_API NodeData(const Data & data);
 
 	OPENCL_EVAL_G_API Data evaluate() final;
 

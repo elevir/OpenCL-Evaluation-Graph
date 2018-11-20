@@ -9,6 +9,7 @@ class DeviceImpl {
 
 public:
     DeviceImpl() = delete;
+    DeviceImpl(Device::Type type) : m_type(type) { } // CPU
     DeviceImpl(const DeviceImpl &) = delete;
     DeviceImpl(DeviceImpl &&) = default;
     DeviceImpl(const cl_device_id & device_id);
@@ -17,7 +18,7 @@ public:
 
 private:
     Device::Type m_type = Device::NOT_CL_CPU;
-    const cl_device_id m_device_id;
+    cl_device_id m_device_id = nullptr;
 };
 
 }

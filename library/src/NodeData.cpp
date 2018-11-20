@@ -2,7 +2,7 @@
 
 namespace cl_graph {
 
-OPENCL_EVAL_G_API NodeData::NodeData(Data & data)
+OPENCL_EVAL_G_API NodeData::NodeData(const Data & data)
     : m_data(data)
 { }
 

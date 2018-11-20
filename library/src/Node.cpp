@@ -13,7 +13,7 @@ Node::Node(INode * impl)
     : m_impl(impl)
 { }
 
-OPENCL_EVAL_G_API Node::Node(Data & data)
+OPENCL_EVAL_G_API Node::Node(const Data & data)
     : m_impl(new NodeData(data))
 { }
 

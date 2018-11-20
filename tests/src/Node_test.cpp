@@ -1,8 +1,7 @@
 #include <limits.h>
 #include <Device.h>
-#include <INode.h>
-#include <NodeData.h>
-#include <NodeAdd.h>
+#include <Data.h>
+#include <Node.h>
 #include "gtest/gtest.h"
 namespace {
 
