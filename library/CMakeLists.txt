@@ -20,7 +20,7 @@ add_library(OpenCLEvaluationGraph SHARED
         src/NodeData.cpp
         src/NodeMul.h
         src/NodeMul.cpp
-        src/helpers/CLTypeConverters.h)
+        src/helpers/CLTypeConverters.h src/ProgramCache.cpp src/ProgramCache.h)
 
 set_target_properties(OpenCLEvaluationGraph PROPERTIES
         VERSION ${PROJECT_VERSION}

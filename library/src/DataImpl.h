@@ -4,20 +4,33 @@
 #include <cstddef>
 #include <vector>
 
+#include "Device.h"
+#include "helpers/opencl.h"
+
 namespace cl_graph {
+
+struct ClMem{
+	ClMem(cl_mem _mem, cl_event _event) : mem(_mem), event(_event) {}
+	cl_mem mem = nullptr;
+	cl_event event = nullptr;
+};
 
 class DataImpl {
 public:
-    OPENCL_EVAL_G_API DataImpl() = default;
-	OPENCL_EVAL_G_API DataImpl(const DataImpl &) = delete;
+    DataImpl() = default;
+    DataImpl(ClMem clmem) : m_cl_mem(clmem) {};
+	DataImpl(const DataImpl &) = delete;
 
-	OPENCL_EVAL_G_API bool download(std::vector<float> & data, std::vector<size_t> & shape) const;
-	OPENCL_EVAL_G_API bool upload(std::vector<float> data, std::vector<size_t> shape);
+	bool download(std::vector<float> & data, std::vector<size_t> & shape) const;
+	bool upload(std::vector<float> data, std::vector<size_t> shape);
 
-	OPENCL_EVAL_G_API const std::vector<float> & get_data() const { return m_data; }
-	OPENCL_EVAL_G_API const std::vector<size_t> & get_shape() const { return m_shape; }
+	const std::vector<float> & get_data() const { return m_data; }
+	const std::vector<size_t> & get_shape() const { return m_shape; }
+
+	ClMem get_cl_data(const Device & device);
 
 private:
+	ClMem m_cl_mem = nullptr;
     std::vector<float> m_data;
     std::vector<size_t> m_shape;
 };
