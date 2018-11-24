@@ -10,6 +10,7 @@
 namespace cl_graph {
 
 struct ClMem{
+	ClMem() = default;
 	ClMem(cl_mem _mem, cl_event _event) : mem(_mem), event(_event) {}
 	cl_mem mem = nullptr;
 	cl_event event = nullptr;
@@ -30,7 +31,7 @@ public:
 	ClMem get_cl_data(const Device & device);
 
 private:
-	ClMem m_cl_mem = nullptr;
+	ClMem m_cl_mem;
     std::vector<float> m_data;
     std::vector<size_t> m_shape;
 };
