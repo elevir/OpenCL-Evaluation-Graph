@@ -2,6 +2,7 @@
 
 #include "dll_macros.h"
 #include <vector>
+#include <memory>
 
 namespace cl_graph {
 
@@ -10,7 +11,7 @@ class DeviceImpl;
 /**
  * Object describing the device
  */
-class Device
+class OPENCL_EVAL_G_API Device
 {
 public:
 
@@ -25,15 +26,15 @@ public:
     };
 
 public:
-	OPENCL_EVAL_G_API Device(const Device &);
+	Device(const Device &);
 
-	OPENCL_EVAL_G_API Type get_type() const;
-	OPENCL_EVAL_G_API size_t get_id() const;
+	Type get_type() const;
+	size_t get_id() const;
 
     // static methods, not thread safe:
-	OPENCL_EVAL_G_API static std::vector<Device> get_all_devices();
-	OPENCL_EVAL_G_API static Device get_default();
-	OPENCL_EVAL_G_API static const void set_default(Device & device);
+	static std::vector<Device> get_all_devices();
+	static Device get_default();
+	static const void set_default(Device & device);
 
 private:
     explicit Device();

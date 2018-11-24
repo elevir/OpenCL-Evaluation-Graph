@@ -1,5 +1,6 @@
 #include "Node.h"
 #include <iostream>
+#include <algorithm>
 
 int main()
 {
