@@ -7,10 +7,10 @@
 
 namespace cl_graph {
 
-class INode
+class OPENCL_EVAL_G_API INode
 {
 public:
-	OPENCL_EVAL_G_API virtual Data evaluate() = 0;
+	virtual Data evaluate() = 0;
 };
 
 }

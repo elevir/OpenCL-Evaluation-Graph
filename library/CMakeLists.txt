@@ -16,6 +16,8 @@ add_library(OpenCLEvaluationGraph SHARED
         src/Node.cpp
         src/NodeAdd.h
         src/NodeAdd.cpp
+		src/NodeAddCL.h
+		src/NodeAddCL.cpp
         src/NodeData.h
         src/NodeData.cpp
         src/NodeMul.h

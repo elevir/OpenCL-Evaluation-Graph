@@ -1,6 +1,4 @@
-#ifdef WIN32
 #include <assert.h>
-#endif
 
 #include "NodeAdd.h"
 #include "DataImpl.h"
