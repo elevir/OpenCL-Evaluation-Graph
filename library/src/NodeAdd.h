@@ -6,11 +6,11 @@
 
 namespace cl_graph {
 
-class NodeAdd : public INode {
+class OPENCL_EVAL_G_API NodeAdd : public INode {
 public:
-    NodeAdd(Node & left, Node & right, const Device & device);
+    NodeAdd(Node left, Node right, const Device & device);
 
-    Data evaluate() final;
+	Data evaluate() final;
 
 private:
     Node m_left;

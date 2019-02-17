@@ -2,7 +2,7 @@
 
 namespace cl_graph {
 
-NodeData::NodeData(Data & data)
+NodeData::NodeData(const Data & data)
     : m_data(data)
 { }
 

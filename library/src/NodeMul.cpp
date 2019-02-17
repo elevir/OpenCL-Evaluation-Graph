@@ -2,20 +2,21 @@
 
 namespace cl_graph {
 
-NodeMul::NodeMul(Node & left, Node & right, const Device & device)
-    : m_left(left),
-      m_right(right),
+OPENCL_EVAL_G_API NodeMul::NodeMul(Node left, Node right, const Device & device)
+    : m_left(std::move(left)),
+      m_right(std::move(right)),
       m_device(device)
 {
 
 }
 
-Data NodeMul::evaluate()
+OPENCL_EVAL_G_API Data NodeMul::evaluate()
 {
     Data left_data = m_left.evaluate();
     Data right_data = m_right.evaluate();
     if (m_device.get_type() == Device::NOT_CL_CPU) {
-        // TODO: implement
+
+    } else {
 
     }
     return {};
