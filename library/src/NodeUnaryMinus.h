@@ -4,16 +4,16 @@
 
 #pragma once
 
-#include "INode.h"
+#include "Device.h"
 #include "NodeUnaryOp.h"
 
 namespace cl_graph {
 
-class NodeAbs :
+class NodeUnaryMinus  :
     public NodeUnaryOp
 {
 public:
-    NodeAbs(Node op, const Device & device);
+    NodeUnaryMinus(Node op, const Device & device);
 
     Data evaluate() final;
 

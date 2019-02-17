@@ -18,8 +18,6 @@ public:
 	
 	Data evaluate();
 
-	bool is_negative() const;
-
 	Node operator-();
 
 	Node operator+(Node other);
@@ -30,6 +28,7 @@ public:
     // static interface for node creation:
 	static Node add_node(Node left, Node right, const Device & device = Device::get_default());
     static Node sub_node(Node left, Node right, const Device & device = Device::get_default());
+	static Node unary_minus_node(Node op, const Device & device = Device::get_default());
 	static Node mul_node(Node left, Node right, const Device & device = Device::get_default());
 	static Node div_node(Node left, Node right, const Device & device = Device::get_default());
 	static Node element_wise_mul_node(Node left, Node right, const Device & device = Device::get_default());
@@ -39,8 +38,6 @@ public:
 
 private:
     std::shared_ptr<INode> m_impl;
-
-    bool m_negative = false;
 };
 
 };

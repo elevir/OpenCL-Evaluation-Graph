@@ -1,8 +1,5 @@
 #include "Data.h"
 
-//TODO: remove:
-#include <iostream>
-
 namespace cl_graph {
 
 namespace detail {

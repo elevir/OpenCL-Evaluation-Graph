@@ -8,11 +8,12 @@
 
 #include "NodeAbs.h"
 #include "NodeAdd.h"
+#include "NodeData.h"
 #include "NodeDivElemWise.h"
 #include "NodeMul.h"
 #include "NodeMulElemWise.h"
-#include "NodeData.h"
 #include "NodeSqrt.h"
+#include "NodeUnaryMinus.h"
 
 namespace cl_graph {
 
@@ -37,6 +38,11 @@ Node Node::add_node(Node left, Node right, const Device & device)
 Node Node::sub_node(Node left, Node right, const Device & device)
 {
     return add_node(std::move(left), -right, device);
+}
+
+Node Node::unary_minus_node(Node op,const Device & device)
+{
+    return new NodeUnaryMinus(op, device);
 }
 
 Node Node::mul_node(Node left, Node right, const Device & device)
@@ -74,11 +80,6 @@ Data Node::evaluate()
     return m_impl ? m_impl->evaluate() : Data();
 }
 
-bool Node::is_negative() const
-{
-    return m_negative;
-}
-
 Node Node::operator+(Node other)
 {
     return add_node(*this, std::move(other));
@@ -101,9 +102,7 @@ Node Node::operator/(Node other)
 
 Node Node::operator-()
 {
-    Node new_node = *this;
-    new_node.m_negative = !m_negative;
-    return new_node;
+    return unary_minus_node(*this);
 }
 
 }

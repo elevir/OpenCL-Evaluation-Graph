@@ -26,3 +26,8 @@ inline constexpr std::pair<const char *, const char *> SQRT = {
 #include "open_cl_kernels/sqrt.cl"
     , "sqrt_func"
 };
+
+inline constexpr std::pair<const char *, const char *> UNARY_MINUS = {
+#include "open_cl_kernels/unary_minus.cl"
+    , "unary_minus"
+};

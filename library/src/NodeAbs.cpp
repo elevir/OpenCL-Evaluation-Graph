@@ -14,8 +14,7 @@
 namespace cl_graph {
 
 NodeAbs::NodeAbs(Node op, const Device & device)
-    : m_node(std::move(op)),
-      m_device(device)
+    : NodeUnaryOp(std::move(op), device)
 { }
 
 Data NodeAbs::evaluate() {
@@ -34,36 +33,8 @@ Data NodeAbs::evaluate() {
             res[i] = std::abs(data[i]);
         }
         return Data(std::move(res), shape);
-    } else {
-        auto kernel = m_device.get_impl()->get_kernel(ABS);
-        Data result;
-        result.get_impl()->resize(data.size());
-        auto res_cl = result.get_impl()->get_cl_data(m_device);
-        auto op = data_node.get_impl()->get_cl_data(m_device);
-        cl_int err;
-        err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&res_cl.mem);
-        err |= clSetKernelArg(kernel, 1, sizeof(cl_mem), (void *)&op.mem);
-        size_t local_work_size[2], global_work_size[2];
-        local_work_size[0] = 1;
-        local_work_size[1] = 1;
-        global_work_size[0] = sz;
-        global_work_size[1] = 1;
-        err |= clEnqueueNDRangeKernel(
-            m_device.get_impl()->get_queue(),
-            kernel,
-            1,
-            nullptr,
-            global_work_size,
-            local_work_size,
-            0,
-            nullptr,
-            nullptr);
-        if (err == CL_SUCCESS) {
-            result.get_impl()->set_shape(shape);
-            return result;
-        }
     }
-    return {};
+    return perform_opencl_operation(ABS);
 }
 
 
