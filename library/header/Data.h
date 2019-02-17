@@ -31,7 +31,9 @@ public:
 	template <class T>
 	bool set_shaped_data(const T & shaped_data);
 	template <class ...T>
-	bool set_shaped_data(T... shaped_data);
+	bool set_shaped_data(std::initializer_list<T>... shaped_data);
+	template <class ...T>
+	bool set_shaped_data(std::initializer_list<std::initializer_list<T>>... shaped_data);
 
 	bool download(std::vector<float> & data, std::vector<size_t> & shape) const;
 	bool upload(std::vector<float> data, std::vector<size_t> shape);

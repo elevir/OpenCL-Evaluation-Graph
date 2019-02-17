@@ -144,7 +144,7 @@ Data::Data(const T & data) : Data()
 }
 
 template <class ...T>
-bool Data::set_shaped_data(T... shaped_data)
+bool Data::set_shaped_data(std::initializer_list<T>... shaped_data)
 {
     std::vector<float> final_data;
     std::vector<size_t> shape;
@@ -154,6 +154,17 @@ bool Data::set_shaped_data(T... shaped_data)
     }
     return false;
 }
+
+template <class ...T>
+bool Data::set_shaped_data(std::initializer_list<std::initializer_list<T>>... shaped_data)
+{
+    std::vector<float> final_data;
+    std::vector<size_t> shape;
+    if (detail::parse_variadic_shape_data(shape, 0, final_data, shaped_data...)) {
+        upload(final_data, shape);
+        return true;
+    }
+    return false;}
 
 template <class ...T>
 Data::Data(std::initializer_list<T> && ... data) : Data()
