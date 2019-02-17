@@ -16,8 +16,15 @@ public:
 	Data(Data &&) = default;
 	Data(float scalar);
 	Data(std::vector<float> container, std::vector<size_t> shape);
+	template <class T>
+	explicit Data(const std::vector<T> & data);
 
 	Data & operator=(const Data &) = delete;
+
+	template <class T>
+	bool get_shaped_data(std::vector<T> & shaped_data);
+	template <class T>
+	bool set_shaped_data(const std::vector<T> & shaped_data);
 
 	bool download(std::vector<float> & data, std::vector<size_t> & shape) const;
 	bool upload(std::vector<float> data, std::vector<size_t> shape);
@@ -32,5 +39,6 @@ private:
     std::shared_ptr<DataImpl> m_impl;
 };
 
-
 }
+
+#include "Data.inl"

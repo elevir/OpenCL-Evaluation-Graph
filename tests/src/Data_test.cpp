@@ -61,4 +61,20 @@ TEST(DataTest, UploadDownloadTest) {
 	// 2d-vector data uploaded and downloaded from and to Data object.
 }
 
+TEST(DataTest, UploadStructureWithUnknownShape) {
+	std::vector<std::vector<std::vector<float>>> vector(5, std::vector<std::vector<float>> (2, std::vector<float> {1.0f, 2.0f, 3.0f}));
+	cl_graph::Data data(vector);
+	std::vector<std::vector<std::vector<float>>> out;
+	EXPECT_TRUE(data.get_shaped_data(out)) << "shaped data cannot be extracted";
+
+	EXPECT_EQ(vector, out) << "vectors are not equal";
+}
+
+TEST(DataTest, UploadStructureWithUnknownShapeDownloadIncorrectShape) {
+	std::vector<std::vector<std::vector<float>>> vector(5, std::vector<std::vector<float>> (2, std::vector<float> {1.0f, 2.0f, 3.0f}));
+	cl_graph::Data data(vector);
+	std::vector<float> out;
+	EXPECT_FALSE(data.get_shaped_data(out)) << "shaped data was wrongly extracted";
+}
+
 } // namespace

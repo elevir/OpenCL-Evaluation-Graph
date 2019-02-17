@@ -9,7 +9,7 @@ namespace cl_graph {
 bool DataImpl::download(std::vector<float> & data, std::vector<size_t> & shape) const
 {
     if (m_cl_mem.mem != nullptr) {
-        clEnqueueReadBuffer(m_cl_mem.queue, m_cl_mem.mem, CL_TRUE, 0, m_data.size() * sizeof(float), (void*)m_data.data(), 0, NULL, NULL);
+        clEnqueueReadBuffer(m_cl_mem.queue, m_cl_mem.mem, CL_TRUE, 0, m_data.size() * sizeof(float), (void*)m_data.data(), 0, nullptr, nullptr);
     }
     data = m_data;
     shape = m_shape;
@@ -20,6 +20,7 @@ bool DataImpl::upload(std::vector<float> data, std::vector<size_t> shape)
 {
     m_data = std::move(data);
     m_shape = std::move(shape);
+    // TODO: resend or cleanup cl device memory
     return true;
 }
 
@@ -68,7 +69,7 @@ void DataImpl::resize(size_t sz)
 void DataImpl::print(std::ostream & strm) const
 {
     if (m_cl_mem.mem != nullptr) {
-        clEnqueueReadBuffer(m_cl_mem.queue, m_cl_mem.mem, CL_TRUE, 0, m_data.size() * sizeof(float), (void*)m_data.data(), 0, NULL, NULL);
+        clEnqueueReadBuffer(m_cl_mem.queue, m_cl_mem.mem, CL_TRUE, 0, m_data.size() * sizeof(float), (void*)m_data.data(), 0, nullptr, nullptr);
     }
     if (m_shape.empty() || m_data.empty()) {
         strm << "<empty>";
