@@ -18,7 +18,11 @@ public:
 	Data(Data &&) = default;
 	Data(std::vector<float> container, std::vector<size_t> shape);
 	template <class T>
-	explicit Data(const T & data);
+	Data(const T & data);
+	template <class ...T>
+	Data(std::initializer_list<T> && ... data);
+	template <class ...T>
+	Data(std::initializer_list<std::initializer_list<T>> && ... data);
 
 	Data & operator=(const Data &) = delete;
 
@@ -26,6 +30,8 @@ public:
 	bool get_shaped_data(T & shaped_data);
 	template <class T>
 	bool set_shaped_data(const T & shaped_data);
+	template <class ...T>
+	bool set_shaped_data(T... shaped_data);
 
 	bool download(std::vector<float> & data, std::vector<size_t> & shape) const;
 	bool upload(std::vector<float> data, std::vector<size_t> shape);

@@ -74,6 +74,16 @@ void DataImpl::print(std::ostream & strm) const
     if (m_shape.empty() || m_data.empty()) {
         strm << "<empty>";
     }
+    if (m_shape.size() > 2) {
+        strm << "[tensor] " << m_shape[0];
+        for (size_t d = 1; d < m_shape.size(); d++) {
+            strm << "x" << m_shape[d];
+        }
+        strm << "[data]";
+        for (const auto & el : m_data) {
+            strm << " " << el;
+        }
+    }
     if (m_shape.size() == 2) {
         strm << "[matrix]:\n";
         for (size_t i = 0; i < m_shape[0]; ++i) {

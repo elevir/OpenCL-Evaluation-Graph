@@ -25,7 +25,7 @@ public:
 };
 
 template <class T, typename std::enable_if_t<!has_size<T>::value && !std::is_array<T>::value> * = nullptr>
-inline bool parse_shape_data(const T & data, std::vector<size_t> & shape, size_t i, std::vector<float> & final_data)
+inline bool parse_shape_data(std::vector<size_t> & shape, size_t i, std::vector<float> & final_data, const T & data)
 {
     if (shape.empty()) {
         shape.emplace_back(1);
@@ -35,7 +35,7 @@ inline bool parse_shape_data(const T & data, std::vector<size_t> & shape, size_t
 }
 
 template <class T, typename std::enable_if_t<has_size<T>::value || std::is_array<T>::value> * = nullptr>
-inline bool parse_shape_data(const T & data, std::vector<size_t> & shape, size_t i, std::vector<float> & final_data)
+inline bool parse_shape_data(std::vector<size_t> & shape, size_t i, std::vector<float> & final_data, const T & data)
 {
     if (i < shape.size()) {
         if (shape[i] != std::size(data)) {
@@ -45,10 +45,39 @@ inline bool parse_shape_data(const T & data, std::vector<size_t> & shape, size_t
         shape.emplace_back(std::size(data));
     }
     for (const auto & entry : data) {
-        parse_shape_data(entry, shape, i + 1, final_data);
+        parse_shape_data(shape, i + 1, final_data, entry);
     }
     return true;
 }
+
+template <class C, class ...T>
+inline bool parse_variadic_shape_data(std::vector<size_t> & shape, size_t i, std::vector<float> & final_data, const C & data)
+{
+    return parse_shape_data(shape, i + 1, final_data, data);
+}
+
+template <class C, class ...T>
+inline bool parse_variadic_shape_data(std::vector<size_t> & shape, size_t i, std::vector<float> & final_data, const C & data, T... lists)
+{
+    if (!parse_shape_data(shape, i + 1, final_data, data)) {
+        return false;
+    }
+    return parse_variadic_shape_data(shape, i, final_data, lists...);
+}
+
+template <class ...T>
+inline bool parse_variadic_shape_data(std::vector<size_t> & shape, size_t i, std::vector<float> & final_data, T... lists)
+{
+    if (i < shape.size()) {
+        if (shape[i] != sizeof...(lists)) {
+            return false;
+        }
+    } else {
+        shape.emplace_back(sizeof...(lists));
+    }
+    return parse_shape_data(shape, i, final_data, lists...);
+}
+
 
 template <class T, typename std::enable_if_t<std::is_arithmetic<T>::value> * = nullptr>
 inline bool ensure_shape_and_fill(const std::vector<float> & data, size_t & j, const std::vector<size_t> & shape, const size_t i, T & shaped_data)
@@ -101,7 +130,7 @@ bool Data::set_shaped_data(const T & shaped_data)
 {
     std::vector<float> final_data;
     std::vector<size_t> shape;
-    if (detail::parse_shape_data(shaped_data, shape, 0, final_data)) {
+    if (detail::parse_shape_data(shape, 0, final_data, shaped_data)) {
         upload(final_data, shape);
         return true;
     }
@@ -112,6 +141,30 @@ template <class T>
 Data::Data(const T & data) : Data()
 {
     set_shaped_data(data);
+}
+
+template <class ...T>
+bool Data::set_shaped_data(T... shaped_data)
+{
+    std::vector<float> final_data;
+    std::vector<size_t> shape;
+    if (detail::parse_variadic_shape_data(shape, 0, final_data, shaped_data...)) {
+        upload(final_data, shape);
+        return true;
+    }
+    return false;
+}
+
+template <class ...T>
+Data::Data(std::initializer_list<T> && ... data) : Data()
+{
+    set_shaped_data(data...);
+}
+
+template <class ...T>
+Data::Data(std::initializer_list<std::initializer_list<T>> && ... data) : Data()
+{
+    set_shaped_data(data...);
 }
 
 template <class T>
