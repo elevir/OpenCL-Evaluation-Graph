@@ -52,7 +52,7 @@ Device Device::get_default()
         }
         auto tmp_dev = devs[0];
         for (const auto & device : devs) {
-            if (device.get_type() == DEFAULT) {
+            if (device.get_type() == GPU) {
                 tmp_dev = device;
                 break;
             }

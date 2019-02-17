@@ -2,6 +2,8 @@
 
 #include "Definitions.h"
 
+#include "Node.h"
+
 #include <cstddef>
 #include <iterator>
 #include <vector>
