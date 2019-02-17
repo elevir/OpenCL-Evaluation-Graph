@@ -1,12 +1,10 @@
 #pragma once
 
-#include "dll_macros.h"
 #include "Data.h"
 #include "Device.h"
+#include "Definitions.h"
 
 namespace cl_graph {
-
-class INode;
 
 class OPENCL_EVAL_G_API Node
 {
@@ -16,16 +14,16 @@ public:
 	Node(Node &);
 	Node(Node &&) = default;
 	Node(const Data &);
-	~Node() = default;
+	~Node();
 	
 	Data evaluate();
 
     // static interface for node creation:
-	static Node add_node(Node & left, Node & right, const Device & device = Device::get_default());
-	static Node mul_node(Node & left, Node & right, const Device & device = Device::get_default());
-	static Node element_wise_mul_node(const Node & left, const Node & right, const Device & device = Device::get_default());
-	static Node abs_node(const Node & op, const Device & device = Device::get_default());
-	static Node sqrt_node(const Node & op, const Device & device = Device::get_default());
+	static Node add_node(Node left, Node right, const Device & device = Device::get_default());
+	static Node mul_node(Node left, Node right, const Device & device = Device::get_default());
+	static Node element_wise_mul_node(Node left, Node right, const Device & device = Device::get_default());
+	static Node abs_node(Node op, const Device & device = Device::get_default());
+	static Node sqrt_node(Node op, const Device & device = Device::get_default());
 
 private:
     std::shared_ptr<INode> m_impl;

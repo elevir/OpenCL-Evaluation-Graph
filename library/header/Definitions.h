@@ -19,3 +19,13 @@
 #endif // WIN32
 
 
+namespace cl_graph {
+
+class Data;
+class DataImpl;
+class Device;
+class DeviceImpl;
+class INode;
+class Node;
+
+}

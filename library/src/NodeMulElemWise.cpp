@@ -1,20 +1,23 @@
-#include <assert.h>
+//
+// Created by pav on 2019-02-17.
+//
 
-#include "NodeAdd.h"
+#include "NodeMulElemWise.h"
 
-#include "helpers/ClKernelsDefinitions.h"
 #include "DataImpl.h"
 #include "DeviceImpl.h"
 
+#include "helpers/ClKernelsDefinitions.h"
+
 namespace cl_graph {
 
-NodeAdd::NodeAdd(Node left, Node right, const Device & device)
+NodeMulElemWise::NodeMulElemWise(Node left, Node right, const Device & device)
     : m_left(std::move(left)),
       m_right(std::move(right)),
       m_device(device)
 { }
 
-Data NodeAdd::evaluate()
+Data NodeMulElemWise::evaluate()
 {
     Data left_data = m_left.evaluate();
     Data right_data = m_right.evaluate();
@@ -30,15 +33,15 @@ Data NodeAdd::evaluate()
     assert(((left_shape == right_shape) || (left_shape.size() == 1 && left_shape[0] == 1) || (right_shape.size() == 1 && right_shape[0] == 1)) && "shapes are missmatch and not a one is  scalar");
 
     if (m_device.get_type() == Device::NOT_CL_CPU) {
+
         const auto sz = data_left.size();
         std::vector<float> res(sz);
         for (size_t i = 0; i < sz; ++i) {
-            res[i] = data_left[i] + data_right[i];
+            res[i] = data_left[i] * data_right[i];
         }
         return Data(std::move(res), left_data.get_impl()->get_shape());
     } else {
-        m_device.get_impl()->get_kernel(ADD);
-        auto kernel = m_device.get_impl()->get_kernel(ADD);
+        auto kernel = m_device.get_impl()->get_kernel(ELEM_WISE_MULT);
         Data result;
         result.get_impl()->resize(data_left.size());
         auto res_cl = result.get_impl()->get_cl_data(m_device);
@@ -54,14 +57,14 @@ Data NodeAdd::evaluate()
         global_work_size[0] = left_data.get_impl()->get_data().size(); //m_device.get_impl()->get_max_global_work_size();
         global_work_size[1] = 1;//m_device.get_impl()->get_max_global_work_size();
         err |= clEnqueueNDRangeKernel(
-            m_device.get_impl()->get_queue(), 
-            kernel, 
+            m_device.get_impl()->get_queue(),
+            kernel,
             1,
             nullptr,
             global_work_size,
             local_work_size,
-            0, 
-            nullptr, 
+            0,
+            nullptr,
             nullptr);
         if (err == CL_SUCCESS) {
             result.get_impl()->set_shape(left_data.get_impl()->get_shape());

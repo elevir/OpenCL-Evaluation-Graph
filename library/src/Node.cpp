@@ -2,10 +2,13 @@
 #include "Device.h"
 #include "INode.h"
 #include "Node.h"
+
+#include "NodeAbs.h"
 #include "NodeAdd.h"
 #include "NodeMul.h"
+#include "NodeMulElemWise.h"
 #include "NodeData.h"
-
+#include "NodeSqrt.h"
 
 namespace cl_graph {
 
@@ -20,24 +23,27 @@ Node::Node(const Data & data)
 Node::Node(Node & node) : m_impl(node.m_impl)
 { }
 
-Node Node::add_node(Node & left, Node & right, const Device & device) {
-    return new NodeAdd(left, right, device);
+Node::~Node()
+{}
+
+Node Node::add_node(Node left, Node right, const Device & device) {
+    return new NodeAdd(std::move(left), std::move(right), device);
 }
 
-Node Node::mul_node(Node & left, Node & right, const Device & device) {
-    return new NodeMul(left, right, device);
+Node Node::mul_node(Node left, Node right, const Device & device) {
+    return new NodeMul(std::move(left), std::move(right), device);
 }
 
-Node Node::element_wise_mul_node(const Node & left, const Node & right, const Device & device) {
-    return nullptr;
+Node Node::element_wise_mul_node(Node left, Node right, const Device & device) {
+    return new NodeMulElemWise(std::move(left), std::move(right), device);
 }
 
-Node Node::abs_node(const Node & op, const Device & device) {
-    return nullptr;
+Node Node::abs_node(Node op, const Device & device) {
+    return new NodeAbs(std::move(op), device);
 }
 
-Node Node::sqrt_node(const Node & op, const Device & device) {
-    return nullptr;
+Node Node::sqrt_node(Node op, const Device & device) {
+    return new NodeSqrt(std::move(op), device);
 }
 
 Data Node::evaluate() {

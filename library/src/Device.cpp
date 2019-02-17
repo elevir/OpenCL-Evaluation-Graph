@@ -1,6 +1,7 @@
-#include "src/helpers/opencl.h"
 #include "Device.h"
 #include "DeviceImpl.h"
+
+#include "helpers/opencl.h"
 
 namespace cl_graph {
 
@@ -16,10 +17,10 @@ Device::Device(const Device & other) : m_device_impl(other.m_device_impl)
 Device::Device(std::shared_ptr<DeviceImpl> device) :m_device_impl(std::move(device))
 { }
 
-OPENCL_EVAL_G_API std::vector<Device> Device::get_all_devices()
+std::vector<Device> Device::get_all_devices()
 {
     if (all_devices.empty()) {
-        all_devices.push_back(Device(std::make_shared<DeviceImpl>(Type::NOT_CL_CPU)));
+        all_devices.emplace_back(Device(std::make_shared<DeviceImpl>(NOT_CL_CPU)));
         cl_uint countOfPatforms;
         clGetPlatformIDs(0, nullptr, &countOfPatforms);
         std::vector<cl_platform_id> all_platforms;
@@ -36,26 +37,32 @@ OPENCL_EVAL_G_API std::vector<Device> Device::get_all_devices()
         }
         all_devices.reserve(all_cl_devices.size());
         for (const auto & cl_device : all_cl_devices) {
-            all_devices.push_back(Device(std::make_shared<DeviceImpl>(cl_device)));
+            all_devices.emplace_back(Device(std::make_shared<DeviceImpl>(cl_device)));
         }
     }
     return all_devices;
 }
 
-OPENCL_EVAL_G_API Device Device::get_default()
+Device Device::get_default()
 {
     if (default_device.get_type() == INVALID) {
-        for (const auto & device : get_all_devices()) {
+        auto devs = get_all_devices();
+        if (devs.empty()) {
+            return Device(std::make_shared<DeviceImpl>(NOT_CL_CPU));
+        }
+        auto tmp_dev = devs[0];
+        for (const auto & device : devs) {
             if (device.get_type() == DEFAULT) {
-                default_device = device;
+                tmp_dev = device;
                 break;
             }
         }
+        default_device = tmp_dev;
     }
 	return default_device;
 }
 
-OPENCL_EVAL_G_API const void Device::set_default(Device & device)
+const void Device::set_default(Device & device)
 {
 	default_device = device;
 }

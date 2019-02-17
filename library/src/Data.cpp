@@ -1,9 +1,10 @@
-#ifdef WIN32
-#include <assert.h>
-#endif
-
 #include "Data.h"
 #include "DataImpl.h"
+
+#include <assert.h>
+#include <ostream>
+#include <Data.h>
+
 
 namespace cl_graph {
 
@@ -11,6 +12,12 @@ Data::Data(std::vector<float> container, std::vector<size_t> shape)
 {
     m_impl = std::make_shared<DataImpl>();
     upload(std::move(container), std::move(shape));
+}
+
+Data::Data(float scalar)
+{
+    m_impl = std::make_shared<DataImpl>();
+    upload({ scalar }, { 1 });
 }
 
 Data::Data()
@@ -33,7 +40,7 @@ bool Data::upload(std::vector<float> data, std::vector<size_t> shape) {
     return false;
 }
 
-const DataImpl * Data::get_impl() const
+DataImpl * Data::get_impl()
 {
     assert(m_impl && "DataImpl is nullptr");
     return m_impl.get();
@@ -41,6 +48,16 @@ const DataImpl * Data::get_impl() const
 
 bool Data::empty() const {
     return !m_impl;
+}
+
+std::ostream & operator<<(std::ostream & strm, const Data & data)
+{
+    if (data.m_impl) {
+        data.m_impl->print(strm);
+    } else {
+        strm << "<empty>";
+    }
+    return strm;
 }
 
 }

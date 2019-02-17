@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dll_macros.h"
+#include "Definitions.h"
 #include <Node.h>
 #include "INode.h"
 
@@ -8,7 +8,7 @@ namespace cl_graph {
 
 class NodeMul : public INode {
 public:
-    NodeMul(Node & left, Node & right, const Device & device);
+    NodeMul(Node left, Node right, const Device & device);
 
 	Data evaluate() final;
 

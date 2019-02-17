@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dll_macros.h"
+#include "Definitions.h"
 #include "Data.h"
 #include "INode.h"
 

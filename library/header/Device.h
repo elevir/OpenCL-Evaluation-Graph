@@ -1,12 +1,11 @@
 #pragma once
 
-#include "dll_macros.h"
+#include "Definitions.h"
+
 #include <vector>
 #include <memory>
 
 namespace cl_graph {
-
-class DeviceImpl;
 
 /**
  * Object describing the device
@@ -30,6 +29,7 @@ public:
 
 	Type get_type() const;
 	size_t get_id() const;
+    const std::shared_ptr<DeviceImpl> & get_impl() const { return m_device_impl; }
 
     // static methods, not thread safe:
 	static std::vector<Device> get_all_devices();

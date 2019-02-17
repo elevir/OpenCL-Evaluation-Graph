@@ -1,3 +1,5 @@
+project(OpenCLEvaluationGraphLibrary)
+
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -32,10 +34,9 @@ endif()
 
 add_executable(Tests src/Data_test.cpp src/Node_test.cpp)
 target_link_libraries(Tests gtest_main OpenCLEvaluationGraph)
-target_include_directories (Tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../library/header)
+target_include_directories (Tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/../library/header)
 #add_test(NAME example_test COMMAND example)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/opencl/FindOpenCL.cmake)
 find_package(OpenCL REQUIRED)
 include_directories(${OPENCL_INCLUDE_DIRS})
 target_link_libraries(Tests ${OPENCL_LIBRARIES})
