@@ -1,3 +1,6 @@
+
+#include <Node.h>
+
 #include "Data.h"
 #include "Device.h"
 #include "INode.h"
@@ -5,6 +8,7 @@
 
 #include "NodeAbs.h"
 #include "NodeAdd.h"
+#include "NodeDivElemWise.h"
 #include "NodeMul.h"
 #include "NodeMulElemWise.h"
 #include "NodeData.h"
@@ -23,32 +27,83 @@ Node::Node(const Data & data)
 Node::Node(Node & node) : m_impl(node.m_impl)
 { }
 
-Node::~Node()
-{}
+Node::~Node() = default;
 
-Node Node::add_node(Node left, Node right, const Device & device) {
+Node Node::add_node(Node left, Node right, const Device & device)
+{
     return new NodeAdd(std::move(left), std::move(right), device);
 }
 
-Node Node::mul_node(Node left, Node right, const Device & device) {
+Node Node::sub_node(Node left, Node right, const Device & device)
+{
+    return add_node(std::move(left), -right, device);
+}
+
+Node Node::mul_node(Node left, Node right, const Device & device)
+{
     return new NodeMul(std::move(left), std::move(right), device);
 }
 
-Node Node::element_wise_mul_node(Node left, Node right, const Device & device) {
+Node Node::div_node(Node left, Node right, const Device & device)
+{
+    return Node();
+}
+
+Node Node::element_wise_mul_node(Node left, Node right, const Device & device)
+{
     return new NodeMulElemWise(std::move(left), std::move(right), device);
 }
 
-Node Node::abs_node(Node op, const Device & device) {
+Node Node::element_wise_div_node(Node left, Node right, const Device & device)
+{
+    return new NodeDivElemWise(std::move(left), std::move(right), device);
+}
+
+Node Node::abs_node(Node op, const Device & device)
+{
     return new NodeAbs(std::move(op), device);
 }
 
-Node Node::sqrt_node(Node op, const Device & device) {
+Node Node::sqrt_node(Node op, const Device & device)
+{
     return new NodeSqrt(std::move(op), device);
 }
 
-Data Node::evaluate() {
+Data Node::evaluate()
+{
     return m_impl ? m_impl->evaluate() : Data();
 }
 
+bool Node::is_negative() const
+{
+    return m_negative;
+}
+
+Node Node::operator+(Node other)
+{
+    return add_node(*this, std::move(other));
+}
+
+Node Node::operator-(Node other)
+{
+    return sub_node(*this, std::move(other));
+}
+
+Node Node::operator*(Node other)
+{
+    return mul_node(*this, std::move(other));
+}
+
+Node Node::operator/(Node other)
+{
+    return div_node(*this, std::move(other));
+}
+
+Node Node::operator-()
+{
+    Node new_node = *this;
+    new_node.m_negative = !m_negative;
+    return new_node;
+}
 
 }

@@ -1,21 +1,24 @@
-#include <assert.h>
+//
+// Created by pav on 2019-02-17.
+//
 
-#include "NodeAdd.h"
+#include "NodeDivElemWise.h"
 
-#include "helpers/ClKernelsDefinitions.h"
 #include "DataImpl.h"
 #include "DeviceImpl.h"
 
+#include "helpers/ClKernelsDefinitions.h"
+
 namespace cl_graph {
 
-NodeAdd::NodeAdd(Node left, Node right, const Device & device)
+
+NodeDivElemWise::NodeDivElemWise(Node left, Node right, const Device & device)
     : m_left(std::move(left)),
       m_right(std::move(right)),
       m_device(device)
 { }
 
-Data NodeAdd::evaluate()
-{
+Data NodeDivElemWise::evaluate() {
     Data left_data = m_left.evaluate();
     Data right_data = m_right.evaluate();
 
@@ -31,16 +34,18 @@ Data NodeAdd::evaluate()
 
     const float sign_left = m_left.is_negative() ? -1.f : 1.f;
     const float sign_right = m_right.is_negative() ? -1.f : 1.f;
+    const float sign = sign_left * sign_right;
 
     if (m_device.get_type() == Device::NOT_CL_CPU) {
+
         const auto sz = data_left.size();
         std::vector<float> res(sz);
         for (size_t i = 0; i < sz; ++i) {
-            res[i] = sign_left * data_left[i] + sign_right * data_right[i];
+            res[i] = sign * data_left[i] / data_right[i];
         }
         return Data(std::move(res), left_data.get_impl()->get_shape());
     } else {
-        auto kernel = m_device.get_impl()->get_kernel(ADD);
+        auto kernel = m_device.get_impl()->get_kernel(ELEM_WISE_DIV);
         Data result;
         result.get_impl()->resize(data_left.size());
         auto res_cl = result.get_impl()->get_cl_data(m_device);
@@ -50,22 +55,21 @@ Data NodeAdd::evaluate()
         err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&res_cl.mem);
         err |= clSetKernelArg(kernel, 1, sizeof(cl_mem), (void *)&a.mem);
         err |= clSetKernelArg(kernel, 2, sizeof(cl_mem), (void *)&b.mem);
-        err |= clSetKernelArg(kernel, 3, sizeof(float), (void *)&sign_left);
-        err |= clSetKernelArg(kernel, 4, sizeof(float), (void *)&sign_right);
+        err |= clSetKernelArg(kernel, 3, sizeof(float), (void *)&sign);
         size_t local_work_size[2], global_work_size[2];
         local_work_size[0] = 1;
         local_work_size[1] = 1;
         global_work_size[0] = left_data.get_impl()->get_data().size(); //m_device.get_impl()->get_max_global_work_size();
         global_work_size[1] = 1;//m_device.get_impl()->get_max_global_work_size();
         err |= clEnqueueNDRangeKernel(
-            m_device.get_impl()->get_queue(), 
-            kernel, 
+            m_device.get_impl()->get_queue(),
+            kernel,
             1,
             nullptr,
             global_work_size,
             local_work_size,
-            0, 
-            nullptr, 
+            0,
+            nullptr,
             nullptr);
         if (err == CL_SUCCESS) {
             result.get_impl()->set_shape(left_data.get_impl()->get_shape());
@@ -74,5 +78,6 @@ Data NodeAdd::evaluate()
     }
     return {};
 }
+
 
 }

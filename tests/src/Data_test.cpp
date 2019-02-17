@@ -7,7 +7,8 @@ namespace {
 // Data tests.
 
 // Data constructor/destructor tests.
-TEST(DataTest, ConstructorDestructorTest) {
+TEST(DataTest, ConstructorDestructorTest)
+{
 	{
 		cl_graph::Data data1;
 		EXPECT_TRUE("Empty cl_graph::Data object created successfully");
@@ -31,7 +32,8 @@ TEST(DataTest, ConstructorDestructorTest) {
 }
 
 // Data upload/download tests.
-TEST(DataTest, UploadDownloadTest) {
+TEST(DataTest, UploadDownloadTest)
+{
 	std::vector<float> vector{ 1.0f, 2.0f, 3.0f };
 	std::vector<size_t> shapeVector{ 3 };
 	cl_graph::Data data;
@@ -61,7 +63,8 @@ TEST(DataTest, UploadDownloadTest) {
 	// 2d-vector data uploaded and downloaded from and to Data object.
 }
 
-TEST(DataTest, UploadStructureWithUnknownShape) {
+TEST(DataTest, UploadStructureWithUnknownShape)
+{
 	std::vector<std::vector<std::vector<float>>> vector(5, std::vector<std::vector<float>> (2, std::vector<float> {1.0f, 2.0f, 3.0f}));
 	cl_graph::Data data(vector);
 	std::vector<std::vector<std::vector<float>>> out;
@@ -70,7 +73,27 @@ TEST(DataTest, UploadStructureWithUnknownShape) {
 	EXPECT_EQ(vector, out) << "vectors are not equal";
 }
 
-TEST(DataTest, UploadStructureWithUnknownShapeDownloadIncorrectShape) {
+TEST(DataTest, UploadStructureWithUnknownShapeCArray)
+{
+	float data1[5][2][3] = {{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}},
+						    {{7.0f, 8.0f, 9.0f}, {10.0f, 11.0f, 12.0f}},
+						    {{13.0f, 14.0f, 15.0f}, {16.0f, 17.0f, 18.0f}},
+						    {{19.0f, 20.0f, 21.0f}, {22.0f, 23.0f, 24.0f}},
+						    {{25.0f, 26.0f, 27.0f}, {28.0f, 29.0f, 30.0f}}};
+	cl_graph::Data data(data1);
+	float data2[5][2][3];
+	EXPECT_TRUE(data.get_shaped_data(data2)) << "shaped data cannot be extracted";
+
+	for (size_t i = 0; i < std::size(data1); ++i)
+		for (size_t j = 0; j < std::size(data1[i]); ++j)
+			for (size_t k = 0; k < std::size(data1[i][j]); ++k)
+				EXPECT_EQ(data1[i][j][k], data2[i][j][k]) << "vectors values are not equal at " << i << ',' << j << ',' << k;
+
+//	EXPECT_EQ(data1, data2) << "vectors are not equal";
+}
+
+TEST(DataTest, UploadStructureWithUnknownShapeDownloadIncorrectShape)
+{
 	std::vector<std::vector<std::vector<float>>> vector(5, std::vector<std::vector<float>> (2, std::vector<float> {1.0f, 2.0f, 3.0f}));
 	cl_graph::Data data(vector);
 	std::vector<float> out;

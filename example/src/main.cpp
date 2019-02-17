@@ -1,6 +1,7 @@
 #include "Node.h"
 
 #include <algorithm>
+#include <array>
 #include <iostream>
 #include <stddef.h>
 #include <vector>
@@ -16,9 +17,15 @@ int main() {
     }
     auto device = *it;
     // construct graph
-    cl_graph::Data data1 = cl_graph::Data({1.0f, -2.0f, 3.0f, 4.0f}, {2, 2});
-    cl_graph::Data data2 = cl_graph::Data({5.0f, 6.0f, -7.0f, 8.0f}, {2, 2});
-    cl_graph::Data scalar = cl_graph::Data(9.0);
+    std::array<std::array<float, 2>, 2> matrix1 = {
+        std::array<float, 2> {1.0f, -2.0f},
+        {3.0f, 4.0f}
+    };
+    cl_graph::Data data1 = cl_graph::Data(matrix1);
+
+    float matrix2[2][2] = {{5.0f, 6.0f}, {-7.0f, 8.0f}};
+    auto data2 = cl_graph::Data(matrix2);
+    cl_graph::Data scalar = 9;
 
     auto add_node = cl_graph::Node::add_node(data1, data2, device);
     auto add_scalar = cl_graph::Node::add_node(add_node, scalar, device);
@@ -32,10 +39,22 @@ int main() {
     std::cout << "=\n";
     std::cout << "C matrix:\n" << add_result << "\n\n";
 
+    auto sub_node = cl_graph::Node::sub_node(data1, data2, device);
+    // get result
+    auto sub_result = sub_node.evaluate();
+
+    // output result
+    std::cout << "A matrix:\n" << data1 << '\n';
+    std::cout << "-\n";
+    std::cout << "B matrix:\n" << data2 << '\n';
+    std::cout << "=\n";
+    std::cout << "C matrix:\n" << sub_result << "\n\n";
+
+
     auto elem_wise_mul = cl_graph::Node::element_wise_mul_node(data1, data2, device);
     auto elem_wise_scalar = cl_graph::Node::element_wise_mul_node(elem_wise_mul, scalar, device);
 
-    auto elem_wise_result = elem_wise_scalar.evaluate();
+    auto elem_wise_result = elem_wise_mul.evaluate();
 
     // output result
     std::cout << "A matrix:\n" << data1 << '\n';
@@ -43,6 +62,22 @@ int main() {
     std::cout << "B matrix:\n" << data2 << '\n';
     std::cout << "=\n";
     std::cout << "C matrix:\n" << elem_wise_result << "\n\n";
+
+    auto elem_wise_div = cl_graph::Node::element_wise_div_node(data1, data2, device);
+    auto elem_wise_scalar_div = cl_graph::Node::element_wise_div_node(elem_wise_div, scalar, device);
+
+    auto elem_wise_div_result = elem_wise_div.evaluate();
+    auto elem_wise_div_scalar_result = elem_wise_scalar_div.evaluate();
+
+    // output result
+    std::cout << "A matrix:\n" << data1 << '\n';
+    std::cout << "./\n";
+    std::cout << "B matrix:\n" << data2 << '\n';
+    std::cout << "=\n";
+    std::cout << "C matrix:\n" << elem_wise_div_result << "\n";
+    std::cout << "./\n";
+    std::cout << scalar << '\n';
+    std::cout << "C' matrix:\n" << elem_wise_div_scalar_result << "\n\n";
 
     auto abs_data1 = cl_graph::Node::abs_node(data1, device);
     auto abs_data2 = cl_graph::Node::abs_node(data2, device);

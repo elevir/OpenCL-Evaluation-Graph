@@ -75,6 +75,7 @@ void DataImpl::print(std::ostream & strm) const
         strm << "<empty>";
     }
     if (m_shape.size() == 2) {
+        strm << "[matrix]:\n";
         for (size_t i = 0; i < m_shape[0]; ++i) {
             size_t j = 0;
             for (; j < m_shape[1] - 1; ++j) {
@@ -83,6 +84,16 @@ void DataImpl::print(std::ostream & strm) const
             strm << m_data[i * m_shape[1] + j];
             if (i + 1 != m_shape[0]) {
                 strm << std::endl;
+            }
+        }
+    }
+    if (m_shape.size() == 1)  {
+        if (m_shape[0] == 1) {
+            strm << "[scalar] " << m_data[0];
+        } else {
+            strm << "[vector]";
+            for (const auto & el : m_data) {
+                strm << " " << el;
             }
         }
     }

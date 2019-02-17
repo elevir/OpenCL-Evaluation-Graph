@@ -27,10 +27,12 @@ Data cl_graph::NodeSqrt::evaluate() {
     const auto & shape = data_node.get_impl()->get_shape();
     const auto sz = data.size();
 
+    const float sign = m_node.is_negative() ? -1.f : 1.f;
+
     if (m_device.get_type() == Device::NOT_CL_CPU) {
         std::vector<float> res(sz);
         for (size_t i = 0; i < sz; ++i) {
-            res[i] = std::sqrt(data[i]);
+            res[i] = std::sqrt(sign * data[i]);
         }
         return Data(std::move(res), shape);
     } else {
@@ -43,6 +45,7 @@ Data cl_graph::NodeSqrt::evaluate() {
         cl_int err;
         err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *) &res_cl.mem);
         err |= clSetKernelArg(kernel, 1, sizeof(cl_mem), (void *) &op.mem);
+        err |= clSetKernelArg(kernel, 2, sizeof(float), (void *) &sign);
         size_t local_work_size[2], global_work_size[2];
         local_work_size[0] = 1;
         local_work_size[1] = 1;

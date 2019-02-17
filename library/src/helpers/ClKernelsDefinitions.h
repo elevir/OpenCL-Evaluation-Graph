@@ -12,6 +12,11 @@ inline constexpr std::pair<const char *, const char *> ELEM_WISE_MULT = {
 , "multiply_element_wise"
 };
 
+inline constexpr std::pair<const char *, const char *> ELEM_WISE_DIV = {
+#include "open_cl_kernels/div_element_wise.cl"
+    , "div_element_wise"
+};
+
 inline constexpr std::pair<const char *, const char *> ABS = {
 #include "open_cl_kernels/abs.cl"
     , "abs_func"

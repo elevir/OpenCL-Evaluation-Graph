@@ -23,7 +23,7 @@ add_library(OpenCLEvaluationGraph SHARED
         src/helpers/CLTypeConverters.h
         src/helpers/ClKernelsDefinitions.h
         src/NodeMulElemWise.cpp
-        src/NodeMulElemWise.h src/NodeAbs.cpp src/NodeAbs.h src/NodeSqrt.cpp src/NodeSqrt.h header/Data.inl)
+        src/NodeMulElemWise.h src/NodeAbs.cpp src/NodeAbs.h src/NodeSqrt.cpp src/NodeSqrt.h header/Data.inl src/NodeDivElemWise.cpp src/NodeDivElemWise.h)
 
 set_target_properties(OpenCLEvaluationGraph PROPERTIES
         VERSION ${PROJECT_VERSION}

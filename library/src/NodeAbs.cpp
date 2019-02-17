@@ -35,7 +35,6 @@ Data NodeAbs::evaluate() {
         }
         return Data(std::move(res), shape);
     } else {
-//        m_device.get_impl()->get_kernel(ABS);
         auto kernel = m_device.get_impl()->get_kernel(ABS);
         Data result;
         result.get_impl()->resize(data.size());

@@ -1,24 +1,48 @@
 #include "Data.h"
 
+//TODO: remove:
+#include <iostream>
+
 namespace cl_graph {
 
 namespace detail {
 
-inline bool parse_shape_data(const float & data, std::vector<size_t> & shape, size_t i, std::vector<float> & final_data)
+template <class Cont>
+class has_size
+{
+    template <typename C> static std::true_type test(decltype(&C::size));
+    template <typename C> static std::false_type test(...);
+public:
+    typedef decltype(test<Cont>(nullptr)) type;
+    static constexpr bool value = std::is_same<std::true_type, decltype(test<Cont>(0))>::value;
+};
+
+template <typename T, typename... Args>
+class has_resize
+{
+    template <typename C, typename = decltype( std::declval<C>().resize(std::declval<Args>()...) )> static std::true_type test(int);
+    template <typename C> static std::false_type test(...);
+
+public:
+    static constexpr bool value = std::is_same<std::true_type, decltype(test<T>(0))>::value;
+};
+
+template <class T, typename std::enable_if_t<!has_size<T>::value && !std::is_array<T>::value> * = nullptr>
+inline bool parse_shape_data(const T & data, std::vector<size_t> & shape, size_t i, std::vector<float> & final_data)
 {
     final_data.emplace_back(data);
     return true;
 }
 
-template <class T>
-inline bool parse_shape_data(const std::vector<T> & data, std::vector<size_t> & shape, size_t i, std::vector<float> & final_data)
+template <class T, typename std::enable_if_t<has_size<T>::value || std::is_array<T>::value> * = nullptr>
+inline bool parse_shape_data(const T & data, std::vector<size_t> & shape, size_t i, std::vector<float> & final_data)
 {
     if (i < shape.size()) {
-        if (shape[i] != data.size()) {
+        if (shape[i] != std::size(data)) {
             return false;
         }
     } else {
-        shape.emplace_back(data.size());
+        shape.emplace_back(std::size(data));
     }
     for (const auto & entry : data) {
         parse_shape_data(entry, shape, i + 1, final_data);
@@ -26,31 +50,41 @@ inline bool parse_shape_data(const std::vector<T> & data, std::vector<size_t> & 
     return true;
 }
 
-inline bool ensure_shape_and_fill(const std::vector<float> & data, size_t & j, const std::vector<size_t> & shape, const size_t i, std::vector<float> & shaped_data)
+template <class T, typename std::enable_if_t<std::is_arithmetic<T>::value> * = nullptr>
+inline bool ensure_shape_and_fill(const std::vector<float> & data, size_t & j, const std::vector<size_t> & shape, const size_t i, T & shaped_data)
 {
-    if (i >= shape.size() || i + 1 < shape.size()) {
+    if (i < shape.size()) {
         return false;
     }
-    if (shaped_data.size() != shape[i]) {
-        shaped_data.resize(shape[i]);
-    }
-    if (j + shaped_data.size() > data.size()) {
-        return false;
-    }
-    for (auto & val : shaped_data) {
-        val = data[j++];
-    }
+    shaped_data = data[j++];
     return true;
 }
 
-template <class T>
-bool ensure_shape_and_fill(const std::vector<float> & data, size_t & j, const std::vector<size_t> & shape, const size_t i, std::vector<T> & shaped_data)
+template <class T, typename std::enable_if_t<(has_size<T>::value && has_resize<T, size_t>::value) && !std::is_arithmetic<T>::value> * = nullptr>
+bool ensure_shape_and_fill(const std::vector<float> & data, size_t & j, const std::vector<size_t> & shape, const size_t i, T & shaped_data)
 {
     if (i >= shape.size()) {
         return false;
     }
-    if (shaped_data.size() != shape[i]) {
+    if (std::size(shaped_data) != shape[i]) {
         shaped_data.resize(shape[i]);
+    }
+    for (auto & dim : shaped_data) {
+        if (!ensure_shape_and_fill(data, j, shape, i + 1, dim)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <class T, typename std::enable_if_t<!(has_size<T>::value && has_resize<T, size_t>::value) && !std::is_arithmetic<T>::value> * = nullptr>
+bool ensure_shape_and_fill(const std::vector<float> & data, size_t & j, const std::vector<size_t> & shape, const size_t i, T & shaped_data)
+{
+    if (i >= shape.size()) {
+        return false;
+    }
+    if (std::size(shaped_data) != shape[i]) {
+        return false;
     }
     for (auto & dim : shaped_data) {
         if (!ensure_shape_and_fill(data, j, shape, i + 1, dim)) {
@@ -63,7 +97,7 @@ bool ensure_shape_and_fill(const std::vector<float> & data, size_t & j, const st
 }
 
 template <class T>
-bool Data::set_shaped_data(const std::vector<T> & shaped_data)
+bool Data::set_shaped_data(const T & shaped_data)
 {
     std::vector<float> final_data;
     std::vector<size_t> shape;
@@ -75,13 +109,13 @@ bool Data::set_shaped_data(const std::vector<T> & shaped_data)
 }
 
 template <class T>
-Data::Data(const std::vector<T> & data) : Data()
+Data::Data(const T & data) : Data()
 {
     set_shaped_data(data);
 }
 
 template <class T>
-bool Data::get_shaped_data(std::vector<T> & shaped_data)
+bool Data::get_shaped_data(T & shaped_data)
 {
     std::vector<size_t> shape;
     std::vector<float> data;

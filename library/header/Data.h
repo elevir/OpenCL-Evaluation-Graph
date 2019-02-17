@@ -17,14 +17,14 @@ public:
 	Data(float scalar);
 	Data(std::vector<float> container, std::vector<size_t> shape);
 	template <class T>
-	explicit Data(const std::vector<T> & data);
+	explicit Data(const T & data);
 
 	Data & operator=(const Data &) = delete;
 
 	template <class T>
-	bool get_shaped_data(std::vector<T> & shaped_data);
+	bool get_shaped_data(T & shaped_data);
 	template <class T>
-	bool set_shaped_data(const std::vector<T> & shaped_data);
+	bool set_shaped_data(const T & shaped_data);
 
 	bool download(std::vector<float> & data, std::vector<size_t> & shape) const;
 	bool upload(std::vector<float> data, std::vector<size_t> shape);
