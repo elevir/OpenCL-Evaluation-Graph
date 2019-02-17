@@ -25,7 +25,7 @@ int main() {
 
     float matrix2[2][2] = {{5.0f, 6.0f}, {-7.0f, 8.0f}};
     auto data2 = cl_graph::Data(matrix2);
-    cl_graph::Data scalar = 9;
+    cl_graph::Data scalar(9);
 
     auto add_node = cl_graph::Node::add_node(data1, data2, device);
     auto add_scalar = cl_graph::Node::add_node(add_node, scalar, device);

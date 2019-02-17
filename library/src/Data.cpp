@@ -14,12 +14,6 @@ Data::Data(std::vector<float> container, std::vector<size_t> shape)
     upload(std::move(container), std::move(shape));
 }
 
-Data::Data(float scalar)
-{
-    m_impl = std::make_shared<DataImpl>();
-    upload({ scalar }, { 1 });
-}
-
 Data::Data()
 {
     m_impl = std::make_shared<DataImpl>();

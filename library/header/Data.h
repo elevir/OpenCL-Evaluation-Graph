@@ -14,7 +14,6 @@ public:
     Data();
     Data(const Data &) = default;
 	Data(Data &&) = default;
-	Data(float scalar);
 	Data(std::vector<float> container, std::vector<size_t> shape);
 	template <class T>
 	explicit Data(const T & data);

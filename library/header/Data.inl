@@ -30,6 +30,9 @@ public:
 template <class T, typename std::enable_if_t<!has_size<T>::value && !std::is_array<T>::value> * = nullptr>
 inline bool parse_shape_data(const T & data, std::vector<size_t> & shape, size_t i, std::vector<float> & final_data)
 {
+    if (shape.empty()) {
+        shape.emplace_back(1);
+    }
     final_data.emplace_back(data);
     return true;
 }
