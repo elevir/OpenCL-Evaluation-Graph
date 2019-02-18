@@ -17,8 +17,8 @@ public:
     Data(const Data &) = default;
 	Data(Data &&) = default;
 	Data(std::vector<float> container, std::vector<size_t> shape);
-	template <class T>
-	Data(const T & data);
+	template <class ...T>
+	Data(const T & ... data);
 	template <class ...T>
 	Data(std::initializer_list<T> && ... data);
 	template <class ...T>
@@ -28,12 +28,12 @@ public:
 
 	template <class T>
 	bool get_shaped_data(T & shaped_data);
-	template <class T>
-	bool set_shaped_data(const T & shaped_data);
 	template <class ...T>
-	bool set_shaped_data(std::initializer_list<T>... shaped_data);
+	bool set_shaped_data(const T & ... shaped_data);
+	template <class ...T, void * = nullptr>
+	bool set_shaped_data(std::initializer_list<T> && ... data);
 	template <class ...T>
-	bool set_shaped_data(std::initializer_list<std::initializer_list<T>>... shaped_data);
+	bool set_shaped_data(std::initializer_list<std::initializer_list<T>> && ... data);
 
 	bool download(std::vector<float> & data, std::vector<size_t> & shape) const;
 	bool upload(std::vector<float> data, std::vector<size_t> shape);

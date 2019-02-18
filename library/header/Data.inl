@@ -125,57 +125,52 @@ bool ensure_shape_and_fill(const std::vector<float> & data, size_t & j, const st
 
 }
 
-template <class T>
-bool Data::set_shaped_data(const T & shaped_data)
-{
-    std::vector<float> final_data;
-    std::vector<size_t> shape;
-    if (detail::parse_shape_data(shape, 0, final_data, shaped_data)) {
-        upload(final_data, shape);
-        return true;
-    }
-    return false;
-}
-
-template <class T>
-Data::Data(const T & data) : Data()
-{
-    set_shaped_data(data);
-}
-
 template <class ...T>
-bool Data::set_shaped_data(std::initializer_list<T>... shaped_data)
+bool Data::set_shaped_data(const T & ... shaped_data)
 {
     std::vector<float> final_data;
     std::vector<size_t> shape;
-    if (detail::parse_variadic_shape_data(shape, 0, final_data, shaped_data...)) {
-        upload(final_data, shape);
+    if (detail::parse_shape_data(shape, 0, final_data, shaped_data...)) {
+        upload(std::move(final_data), std::move(shape));
         return true;
     }
     return false;
 }
 
 template <class ...T>
-bool Data::set_shaped_data(std::initializer_list<std::initializer_list<T>>... shaped_data)
+Data::Data(const T &... data) : Data()
+{
+    set_shaped_data(data...);
+}
+
+template <class ...T, void *>
+bool Data::set_shaped_data(std::initializer_list<T> && ... shaped_data)
 {
     std::vector<float> final_data;
     std::vector<size_t> shape;
     if (detail::parse_variadic_shape_data(shape, 0, final_data, shaped_data...)) {
-        upload(final_data, shape);
+        upload(std::move(final_data), std::move(shape));
         return true;
     }
-    return false;}
+    return false;
+}
+
+template <class ...T>
+bool Data::set_shaped_data(std::initializer_list<std::initializer_list<T>> && ... shaped_data)
+{
+    return set_shaped_data<T..., nullptr>(std::move(shaped_data)...);
+}
 
 template <class ...T>
 Data::Data(std::initializer_list<T> && ... data) : Data()
 {
-    set_shaped_data(data...);
+    set_shaped_data(std::move(data)...);
 }
 
 template <class ...T>
 Data::Data(std::initializer_list<std::initializer_list<T>> && ... data) : Data()
 {
-    set_shaped_data(data...);
+    set_shaped_data(std::move(data)...);
 }
 
 template <class T>

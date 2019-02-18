@@ -11,13 +11,15 @@ DeviceImpl::DeviceImpl(const cl_device_id & device_id) : m_device_id(device_id)
     cl_device_type ret_type;
     clGetDeviceInfo(device_id, CL_DEVICE_TYPE, sizeof(cl_device_type), &ret_type, nullptr);
     size_t max_work_items_dimentions;
-    clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, sizeof(size_t), &max_work_items_dimentions, nullptr);
+    cl_int err = clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, sizeof(size_t), &max_work_items_dimentions, nullptr);
+    if (err) {
+        throw std::exception();
+    }
     m_local_work_size.resize(max_work_items_dimentions);
     clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_ITEM_SIZES, sizeof(size_t) * max_work_items_dimentions, m_local_work_size.data(), nullptr);
     clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t), &m_global_work_size, nullptr);
 
     m_type = helpers::fromCL2OLEG(ret_type);
-    cl_int err;
     m_context = clCreateContext(nullptr, 1, &m_device_id, nullptr, nullptr, &err);
     m_queue = clCreateCommandQueue(m_context, device_id, 0, &err);
 }
