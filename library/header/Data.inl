@@ -144,7 +144,7 @@ Data::Data(const T &... data) : Data()
 }
 
 template <class ...T, void *>
-bool Data::set_shaped_data(std::initializer_list<T> && ... shaped_data)
+bool Data::set_shaped_data(std::initializer_list<T> ... shaped_data)
 {
     std::vector<float> final_data;
     std::vector<size_t> shape;
@@ -156,19 +156,19 @@ bool Data::set_shaped_data(std::initializer_list<T> && ... shaped_data)
 }
 
 template <class ...T>
-bool Data::set_shaped_data(std::initializer_list<std::initializer_list<T>> && ... shaped_data)
+bool Data::set_shaped_data(std::initializer_list<std::initializer_list<T>> ... shaped_data)
 {
     return set_shaped_data<T..., nullptr>(std::move(shaped_data)...);
 }
 
 template <class ...T>
-Data::Data(std::initializer_list<T> && ... data) : Data()
+Data::Data(std::initializer_list<T> ... data) : Data()
 {
     set_shaped_data(std::move(data)...);
 }
 
 template <class ...T>
-Data::Data(std::initializer_list<std::initializer_list<T>> && ... data) : Data()
+Data::Data(std::initializer_list<std::initializer_list<T>> ... data) : Data()
 {
     set_shaped_data(std::move(data)...);
 }
