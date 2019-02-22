@@ -9,6 +9,8 @@
 
 #include "helpers/ClKernelsDefinitions.h"
 
+#include <assert.h>
+
 namespace cl_graph {
 
 NodeMulElemWise::NodeMulElemWise(Node left, Node right, const Device & device)

@@ -34,7 +34,7 @@ endif()
 
 add_executable(Tests src/Data_test.cpp src/Node_test.cpp)
 target_link_libraries(Tests gtest_main OpenCLEvaluationGraph)
-target_include_directories (Tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/../library/header)
+target_include_directories (Tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 #add_test(NAME example_test COMMAND example)
 
 find_package(OpenCL REQUIRED)

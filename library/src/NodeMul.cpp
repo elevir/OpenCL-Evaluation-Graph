@@ -2,7 +2,7 @@
 
 namespace cl_graph {
 
-OPENCL_EVAL_G_API NodeMul::NodeMul(Node left, Node right, const Device & device)
+NodeMul::NodeMul(Node left, Node right, const Device & device)
     : m_left(std::move(left)),
       m_right(std::move(right)),
       m_device(device)
@@ -10,7 +10,7 @@ OPENCL_EVAL_G_API NodeMul::NodeMul(Node left, Node right, const Device & device)
 
 }
 
-OPENCL_EVAL_G_API Data NodeMul::evaluate()
+Data NodeMul::evaluate()
 {
     Data left_data = m_left.evaluate();
     Data right_data = m_right.evaluate();
