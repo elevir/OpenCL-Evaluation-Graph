@@ -7,6 +7,8 @@
 #include "DataImpl.h"
 #include "DeviceImpl.h"
 
+#include <assert.h>
+
 namespace cl_graph {
 
 NodeTwoOp::NodeTwoOp(Node left, Node right, const Device & device)

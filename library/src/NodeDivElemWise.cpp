@@ -9,6 +9,8 @@
 
 #include "helpers/ClKernelsDefinitions.h"
 
+#include <assert.h>
+
 namespace cl_graph {
 
 

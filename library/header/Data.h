@@ -42,7 +42,7 @@ public:
 
     DataImpl * get_impl();
 
-    friend std::ostream & operator<<(std::ostream & strm, const Data & data);
+    OPENCL_EVAL_G_API friend std::ostream & operator<<(std::ostream & strm, const Data & data);
 
 private:
     std::shared_ptr<DataImpl> m_impl;

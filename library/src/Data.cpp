@@ -44,7 +44,7 @@ bool Data::empty() const {
     return !m_impl;
 }
 
-std::ostream & operator<<(std::ostream & strm, const Data & data)
+OPENCL_EVAL_G_API  std::ostream & operator<<(std::ostream & strm, const Data & data)
 {
     if (data.m_impl) {
         data.m_impl->print(strm);
