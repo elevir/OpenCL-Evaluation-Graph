@@ -27,13 +27,13 @@ public:
 	DataImpl(const DataImpl &) = delete;
 
 	bool download(std::vector<float> & data, std::vector<size_t> & shape) const;
-	bool upload(std::vector<float> data, std::vector<size_t> shape);
+	bool upload(std::vector<float> data, std::vector<size_t> shape = {});
 
 	const std::vector<float> & get_data() const { return m_data; }
 	const std::vector<size_t> & get_shape() const { return m_shape; }
 
 	void resize(size_t sz);
-	void set_shape(std::vector<size_t> shape) { m_shape = std::move(shape); }
+	bool set_shape(std::vector<size_t> shape);
 
 	ClMem get_cl_data(const Device & device, size_t broadcast_size = 0);
 

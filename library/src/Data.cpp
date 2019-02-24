@@ -34,6 +34,14 @@ bool Data::upload(std::vector<float> data, std::vector<size_t> shape) {
     return false;
 }
 
+bool Data::reshape(std::vector<size_t> shape)
+{
+    if (m_impl) {
+        return m_impl->set_shape(std::move(shape));
+    }
+    return false;
+}
+
 DataImpl * Data::get_impl()
 {
     assert(m_impl && "DataImpl is nullptr");

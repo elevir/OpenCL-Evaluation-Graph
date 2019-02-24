@@ -89,7 +89,6 @@ TEST(DataTest, UploadStructureWithUnknownShapeCArray)
 			for (size_t k = 0; k < std::size(data1[i][j]); ++k)
 				EXPECT_EQ(data1[i][j][k], data2[i][j][k]) << "vectors values are not equal at " << i << ',' << j << ',' << k;
 
-//	EXPECT_EQ(data1, data2) << "vectors are not equal";
 }
 
 TEST(DataTest, UploadStructureWithUnknownShapeDownloadIncorrectShape)
@@ -98,6 +97,18 @@ TEST(DataTest, UploadStructureWithUnknownShapeDownloadIncorrectShape)
 	cl_graph::Data data(vector);
 	std::vector<float> out;
 	EXPECT_FALSE(data.get_shaped_data(out)) << "shaped data was wrongly extracted";
+}
+
+TEST(DataTest, DefaultShapeVector)
+{
+	std::vector<float> vector = { 1, 2 , 3, 4, 5};
+	cl_graph::Data data(vector);
+	std::vector<float> out;
+	std::vector<size_t> shape;
+	EXPECT_TRUE(data.download(out, shape)) << "shaped data was not extracted";
+	ASSERT_EQ(shape.size(), 1) << "shape dims is not 1 dim";
+	EXPECT_EQ(shape[0], vector.size()) << "dim size is incorrect";
+	EXPECT_EQ(out.size(), vector.size()) << "size of out vector is incorrect";
 }
 
 } // namespace

@@ -19,7 +19,11 @@ bool DataImpl::download(std::vector<float> & data, std::vector<size_t> & shape) 
 bool DataImpl::upload(std::vector<float> data, std::vector<size_t> shape)
 {
     m_data = std::move(data);
-    m_shape = std::move(shape);
+    if (!shape.empty()) {
+        m_shape = std::move(shape);
+    } else {
+        m_shape = std::vector<size_t>(1, m_data.size());
+    }
     // TODO: resend or cleanup cl device memory
     return true;
 }
@@ -64,6 +68,19 @@ void DataImpl::resize(size_t sz)
             m_data.resize(sz);
         }
     }
+}
+
+bool DataImpl::set_shape(std::vector<size_t> shape)
+{
+    size_t total_size = 1;
+    for (const auto & dim : shape) {
+        total_size *= dim;
+    }
+    if (total_size != m_data.size()) {
+        return false;
+    }
+    m_shape = std::move(shape);
+    return true;
 }
 
 void DataImpl::print(std::ostream & strm) const
