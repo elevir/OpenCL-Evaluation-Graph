@@ -49,7 +49,7 @@ DataImpl * Data::get_impl()
 }
 
 bool Data::empty() const {
-    return !m_impl;
+    return !m_impl || m_impl->empty();
 }
 
 OPENCL_EVAL_G_API  std::ostream & operator<<(std::ostream & strm, const Data & data)

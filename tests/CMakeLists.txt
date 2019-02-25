@@ -32,6 +32,6 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-add_executable(Tests src/Data_test.cpp src/Node_test.cpp)
+add_executable(Tests src/Data_test.cpp src/Node_test.cpp src/NodeMulTest.cpp)
 target_link_libraries(Tests gtest_main OpenCLEvaluationGraph)
 target_include_directories (Tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

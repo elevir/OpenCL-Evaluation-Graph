@@ -19,10 +19,9 @@ bool DataImpl::download(std::vector<float> & data, std::vector<size_t> & shape) 
 bool DataImpl::upload(std::vector<float> data, std::vector<size_t> shape)
 {
     m_data = std::move(data);
-    if (!shape.empty()) {
-        m_shape = std::move(shape);
-    } else {
-        m_shape = std::vector<size_t>(1, m_data.size());
+    m_shape = std::move(shape);
+    if (m_shape.empty()) {
+        m_shape.push_back(1);
     }
     // TODO: resend or cleanup cl device memory
     return true;
@@ -123,6 +122,28 @@ void DataImpl::print(std::ostream & strm) const
                 strm << " " << el;
             }
         }
+    }
+}
+
+void DataImpl::squeeze()
+{
+    auto it = m_shape.rbegin();
+    for (; it != m_shape.rend(); it++) {
+        if (*it != 1) {
+            break;
+        }
+    }
+    m_shape.erase(it.base(), m_shape.end());
+    if (m_shape.empty()) {
+        m_shape.push_back(1);
+    } else {
+        auto it = m_shape.begin();
+        for (; it != m_shape.end(); it++) {
+            if (*it != 1) {
+                break;
+            }
+        }
+        m_shape.erase(m_shape.begin(), it);
     }
 }
 

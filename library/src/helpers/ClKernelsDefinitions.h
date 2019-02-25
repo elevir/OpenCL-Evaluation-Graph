@@ -31,3 +31,8 @@ constexpr std::pair<const char *, const char *> UNARY_MINUS = {
 #include "open_cl_kernels/unary_minus.cl"
     , "unary_minus"
 };
+
+constexpr std::pair<const char *, const char *> MATRIX_MUL = {
+#include "open_cl_kernels/matrix_mul.cl"
+    , "matrix_mul"
+};

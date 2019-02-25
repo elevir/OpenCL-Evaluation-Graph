@@ -32,8 +32,11 @@ public:
 	const std::vector<float> & get_data() const { return m_data; }
 	const std::vector<size_t> & get_shape() const { return m_shape; }
 
+	const bool empty() { return m_data.empty(); }
+
 	void resize(size_t sz);
 	bool set_shape(std::vector<size_t> shape);
+	void squeeze(); // removes one's from the end
 
 	ClMem get_cl_data(const Device & device, size_t broadcast_size = 0);
 
