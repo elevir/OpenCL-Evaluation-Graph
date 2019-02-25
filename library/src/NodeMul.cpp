@@ -8,9 +8,9 @@
 namespace cl_graph {
 
 NodeMul::NodeMul(Node left, Node right, const Device & device)
-    : m_left(left),
-      m_right(right),
-      m_device(device)
+    : m_left(std::move(left)),
+      m_right(std::move(right)),
+      m_device(std::move(device))
 {
 
 }

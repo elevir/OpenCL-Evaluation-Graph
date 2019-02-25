@@ -10,9 +10,9 @@ using namespace cl_graph;
 struct NodeMulTest
 	: public ::testing::Test
 {
-	NodeMulTest() : m_device(find_device())
+	NodeMulTest()
 	{
-
+		m_device = find_device();
 	}
 
 	Device find_device()

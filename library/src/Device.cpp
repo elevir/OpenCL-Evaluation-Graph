@@ -1,3 +1,6 @@
+
+#include <Device.h>
+
 #include "Device.h"
 #include "DeviceImpl.h"
 
@@ -8,14 +11,15 @@ namespace cl_graph {
 Device Device::default_device{};
 std::vector<Device> Device::all_devices{};
 
-Device::Device()
-{ }
-
-Device::Device(const Device & other) : m_device_impl(other.m_device_impl)
-{ }
+Device::Device() = default;
+Device::Device(const Device & other) = default;
+Device::Device(Device && other) = default;
 
 Device::Device(std::shared_ptr<DeviceImpl> device) :m_device_impl(std::move(device))
 { }
+
+Device & Device::operator=(const Device & other) = default;
+Device & Device::operator=(Device && other) = default;
 
 std::vector<Device> Device::get_all_devices()
 {

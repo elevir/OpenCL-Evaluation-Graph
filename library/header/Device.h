@@ -25,7 +25,12 @@ public:
     };
 
 public:
+	Device();
 	Device(const Device &);
+	Device(Device &&);
+
+	Device & operator=(const Device & other);
+    Device & operator=(Device && other);
 
 	Type get_type() const;
 	size_t get_id() const;
@@ -37,7 +42,6 @@ public:
 	static const void set_default(Device & device);
 
 private:
-    explicit Device();
 	explicit Device(Type type);
 	Device(std::shared_ptr<DeviceImpl> device);
 

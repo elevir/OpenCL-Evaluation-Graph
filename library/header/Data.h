@@ -24,6 +24,7 @@ public:
     Data(std::initializer_list<std::initializer_list<T>> ... data);
 
     Data & operator=(const Data &) = default;
+    Data & operator=(Data &&) = default;
 
     template<class T>
     bool get_shaped_data(T & shaped_data);
