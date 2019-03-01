@@ -32,6 +32,7 @@ TEST(NodeAddTest, EvaluationTest) {
 	std::vector<float> result;
 	std::vector<size_t> resultShape;
 	resultData.download(result, resultShape);
+  ASSERT_FALSE(resultShape.empty());
 	EXPECT_EQ(vector1.size(), resultShape[0]);
 	for (int i = 0; i < 3; ++i) EXPECT_EQ(result[i], vector1[i] + vector2[i]);
 	// 1d Node addition evaluation.

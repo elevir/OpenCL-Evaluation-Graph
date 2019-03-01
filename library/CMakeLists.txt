@@ -23,7 +23,20 @@ add_library(OpenCLEvaluationGraph SHARED
         src/helpers/CLTypeConverters.h
         src/helpers/ClKernelsDefinitions.h
         src/NodeMulElemWise.cpp
-        src/NodeMulElemWise.h src/NodeAbs.cpp src/NodeAbs.h src/NodeSqrt.cpp src/NodeSqrt.h header/Data.inl src/NodeDivElemWise.cpp src/NodeDivElemWise.h src/NodeUnaryMinus.cpp src/NodeUnaryMinus.h src/NodeUnaryOp.cpp src/NodeUnaryOp.h src/NodeTwoOp.cpp src/NodeTwoOp.h)
+        src/NodeMulElemWise.h 
+        src/NodeAbs.cpp 
+        src/NodeAbs.h
+        src/NodeSqrt.cpp 
+        src/NodeSqrt.h
+        header/Data.inl
+        src/NodeDivElemWise.cpp 
+        src/NodeDivElemWise.h
+        src/NodeUnaryMinus.cpp 
+        src/NodeUnaryMinus.h
+        src/NodeUnaryOp.cpp 
+        src/NodeUnaryOp.h
+        src/NodeTwoOp.cpp
+        src/NodeTwoOp.h)
 
 set_target_properties(OpenCLEvaluationGraph PROPERTIES
         VERSION ${PROJECT_VERSION}
@@ -53,5 +66,5 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/oxygen/doxygen.cmake)
 ADD_DOCUMENTATION(doc Doxyfile)
 
 find_package(OpenCL REQUIRED)
-include_directories(${OPENCL_INCLUDE_DIRS})
-target_link_libraries(OpenCLEvaluationGraph ${OPENCL_LIBRARIES})
+include_directories(${OpenCL_INCLUDE_DIRS})
+target_link_libraries(OpenCLEvaluationGraph ${OpenCL_LIBRARIES})

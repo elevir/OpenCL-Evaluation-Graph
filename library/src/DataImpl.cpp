@@ -21,9 +21,8 @@ bool DataImpl::upload(std::vector<float> data, std::vector<size_t> shape)
     m_data = std::move(data);
     m_shape = std::move(shape);
     if (m_shape.empty()) {
-        m_shape.push_back(1);
+        m_shape.push_back(m_data.size());
     }
-    // TODO: resend or cleanup cl device memory
     return true;
 }
 
@@ -127,6 +126,10 @@ void DataImpl::print(std::ostream & strm) const
 
 void DataImpl::squeeze()
 {
+    if (m_data.empty()) {
+      m_shape.clear();
+      return;
+    }
     auto it = m_shape.rbegin();
     for (; it != m_shape.rend(); it++) {
         if (*it != 1) {

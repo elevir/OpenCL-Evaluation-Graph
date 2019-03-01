@@ -1,9 +1,13 @@
 #include "NodeMul.h"
 
+#include "Data.h"
 #include "DataImpl.h"
 #include "DeviceImpl.h"
 
+#include "helpers/opencl.h"
 #include "helpers/ClKernelsDefinitions.h"
+
+#include <assert.h>
 
 namespace cl_graph {
 
@@ -68,13 +72,17 @@ Data NodeMul::matrix_x_matrix(const std::vector<float> & left,
         auto a = m_left_data.get_impl()->get_cl_data(m_device);
         auto b = m_right_data.get_impl()->get_cl_data(m_device);
         cl_int err;
-        err = clSetKernelArg(kernel, 0, sizeof(size_t), (void *)&M);
-        err |= clSetKernelArg(kernel, 1, sizeof(size_t), (void *)&N);
-        err |= clSetKernelArg(kernel, 2, sizeof(size_t), (void *)&K);
+        int M2 = M;
+        int N2 = N;
+        int K2 = K;
+        err = clSetKernelArg(kernel, 0, sizeof(int), (void *)&M2);
+        err |= clSetKernelArg(kernel, 1, sizeof(int), (void *)&N2);
+        err |= clSetKernelArg(kernel, 2, sizeof(int), (void *)&K2);
         err |= clSetKernelArg(kernel, 3, sizeof(cl_mem), (void *)&a.mem);
         err |= clSetKernelArg(kernel, 4, sizeof(cl_mem), (void *)&b.mem);
         err |= clSetKernelArg(kernel, 5, sizeof(cl_mem), (void *)&res_cl.mem);
         size_t local_work_size[2], global_work_size[2];
+
         local_work_size[0] = 1;
         local_work_size[1] = 1;
         global_work_size[0] = M;
