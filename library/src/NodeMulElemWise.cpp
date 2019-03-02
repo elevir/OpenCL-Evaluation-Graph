@@ -2,6 +2,7 @@
 // Created by pav on 2019-02-17.
 //
 
+#include <assert.h>
 #include "NodeMulElemWise.h"
 
 #include "DataImpl.h"

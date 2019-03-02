@@ -53,5 +53,5 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/oxygen/doxygen.cmake)
 ADD_DOCUMENTATION(doc Doxyfile)
 
 find_package(OpenCL REQUIRED)
-include_directories(${OPENCL_INCLUDE_DIRS})
-target_link_libraries(OpenCLEvaluationGraph ${OPENCL_LIBRARIES})
+include_directories(${OpenCL_INCLUDE_DIRS})
+target_link_libraries(OpenCLEvaluationGraph ${OpenCL_LIBRARIES})
