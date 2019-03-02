@@ -34,15 +34,7 @@ DeviceImpl::DeviceImpl(const cl_device_id & device_id) : m_device_id(device_id)
     m_cl_ver = (clver[9] - '0') * 10 + (clver[11] - '0');
 
     m_context = clCreateContext(nullptr, 1, &m_device_id, nullptr, nullptr, &err);
-    if (m_cl_ver >= 20) {
-        #ifndef __APPLE_CL__
-            m_queue = clCreateCommandQueueWithProperties(m_context, device_id, 0, &err);
-        #else
-            m_queue = clCreateCommandQueueWithPropertiesAPPLE(m_context, device_id, 0, &err);
-        #endif
-    } else {
-        m_queue = clCreateCommandQueue(m_context, device_id, 0, &err);
-    }
+    m_queue = clCreateCommandQueue(m_context, device_id, 0, &err);
     if (m_device_id && release_retain_supported())
         clRetainDevice(m_device_id);
 }
