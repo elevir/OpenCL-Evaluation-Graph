@@ -27,7 +27,11 @@ DeviceImpl::DeviceImpl(const cl_device_id & device_id) : m_device_id(device_id)
 
     m_type = helpers::fromCL2OLEG(ret_type);
     m_context = clCreateContext(nullptr, 1, &m_device_id, nullptr, nullptr, &err);
-    m_queue = clCreateCommandQueue(m_context, device_id, 0, &err);
+    if (m_cl_ver >= 20) {
+        m_queue = clCreateCommandQueueWithProperties(m_context, device_id, 0, &err);
+    } else {
+        m_queue = clCreateCommandQueue(m_context, device_id, 0, &err);
+    }
     if (m_device_id && release_retain_supported())
         clRetainDevice(m_device_id);
 }
