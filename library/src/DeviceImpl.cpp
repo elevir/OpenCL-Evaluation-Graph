@@ -18,10 +18,18 @@ DeviceImpl::DeviceImpl(const cl_device_id & device_id) : m_device_id(device_id)
     m_local_work_size.resize(max_work_items_dimentions);
     clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_ITEM_SIZES, sizeof(size_t) * max_work_items_dimentions, m_local_work_size.data(), nullptr);
     clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t), &m_global_work_size, nullptr);
+    char clver[16];
+    err = clGetDeviceInfo(device_id, CL_DEVICE_OPENCL_C_VERSION, sizeof(clver), &clver, nullptr);
+    if (err != CL_SUCCESS) {
+        throw std::exception();
+    }
+    m_cl_ver = (clver[9] - '0') * 10 + (clver[11] - '0');
 
     m_type = helpers::fromCL2OLEG(ret_type);
     m_context = clCreateContext(nullptr, 1, &m_device_id, nullptr, nullptr, &err);
     m_queue = clCreateCommandQueue(m_context, device_id, 0, &err);
+    if (m_device_id && release_retain_supported())
+        clRetainDevice(m_device_id);
 }
 
 DeviceImpl::~DeviceImpl()
@@ -30,7 +38,7 @@ DeviceImpl::~DeviceImpl()
         clReleaseCommandQueue(m_queue);
     if (m_context)
         clReleaseContext(m_context);
-    if (m_device_id)
+    if (m_device_id && release_retain_supported())
         clReleaseDevice(m_device_id);
 }
 

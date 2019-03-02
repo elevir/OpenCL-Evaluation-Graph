@@ -31,12 +31,16 @@ public:
 private:
     cl_kernel do_get_kernel(cl_program program, const char * name) const;
 
+    bool release_retain_supported() const { return m_cl_ver >= 12; }
+
 private:
     Device::Type m_type = Device::NOT_CL_CPU;
 
     cl_device_id m_device_id = nullptr;
     cl_context m_context = nullptr;
     cl_command_queue m_queue = nullptr;
+
+    uint8_t m_cl_ver;
 
     std::vector<size_t> m_local_work_size;
     size_t m_global_work_size;
