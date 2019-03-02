@@ -41,7 +41,7 @@ public:
     // static methods, not thread safe:
 	static std::vector<Device> get_all_devices();
 	static Device get_default();
-	static const void set_default(Device & device);
+	static const void set_default(const Device& device);
 
 	void print(std::ostream & oss) const;
     OPENCL_EVAL_G_API friend std::ostream & operator<<(std::ostream & oss, const Device & device);

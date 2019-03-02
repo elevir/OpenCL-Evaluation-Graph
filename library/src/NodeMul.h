@@ -6,7 +6,7 @@
 
 namespace cl_graph {
 
-class NodeMul : public INode {
+OPENCL_EVAL_G_API class NodeMul : public INode {
 public:
     NodeMul(Node left, Node right, const Device & device);
 
