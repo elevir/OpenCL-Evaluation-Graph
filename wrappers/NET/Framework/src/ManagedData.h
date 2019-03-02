@@ -21,6 +21,8 @@ namespace CLGraph {
 		bool GetShapedData(array<double>^% shapedData);
 		bool SetShapedData(array<float>^ shapedData);
 		bool SetShapedData(array<double>^ shapedData);
+		virtual System::String^ ToString() override;
+
 
 		static operator Data^(array<float>^ data);
 		static operator Data^(array<double>^ data);

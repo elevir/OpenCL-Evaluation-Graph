@@ -7,7 +7,13 @@
 
 int main() {
 
-    auto devices = cl_graph::Device::get_all_devices();
+	auto devices = cl_graph::Device::get_all_devices();
+	for (const auto& device : devices)
+	{ 
+		std::cout << device.get_id() << std::endl;
+		std::cout << device.get_type() << std::endl;
+	}
+
     const auto it = std::find_if(devices.begin(), devices.end(),
                                  [](const auto & d) { return d.get_type() == cl_graph::Device::CPU; });
     if (it == devices.end()) {

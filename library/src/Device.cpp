@@ -11,7 +11,7 @@ std::vector<Device> Device::all_devices{};
 Device::Device()
 { }
 
-Device::Device(const Device & other) : m_device_impl(other.m_device_impl)
+Device::Device(const Device& other) : m_device_impl(other.m_device_impl)
 { }
 
 Device::Device(std::shared_ptr<DeviceImpl> device) :m_device_impl(std::move(device))
@@ -62,7 +62,7 @@ Device Device::get_default()
 	return default_device;
 }
 
-const void Device::set_default(Device & device)
+const void Device::set_default(const Device& device)
 {
 	default_device = device;
 }

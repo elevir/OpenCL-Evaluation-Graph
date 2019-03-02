@@ -10,7 +10,7 @@ DeviceImpl::DeviceImpl(const cl_device_id & device_id) : m_device_id(device_id)
 {
     cl_device_type ret_type;
     clGetDeviceInfo(device_id, CL_DEVICE_TYPE, sizeof(cl_device_type), &ret_type, nullptr);
-    size_t max_work_items_dimentions;
+    size_t max_work_items_dimentions = 0;
     clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, sizeof(size_t), &max_work_items_dimentions, nullptr);
     m_local_work_size.resize(max_work_items_dimentions);
     clGetDeviceInfo(device_id, CL_DEVICE_MAX_WORK_ITEM_SIZES, sizeof(size_t) * max_work_items_dimentions, m_local_work_size.data(), nullptr);
@@ -19,17 +19,20 @@ DeviceImpl::DeviceImpl(const cl_device_id & device_id) : m_device_id(device_id)
     m_type = helpers::fromCL2OLEG(ret_type);
     cl_int err;
     m_context = clCreateContext(nullptr, 1, &m_device_id, nullptr, nullptr, &err);
-    m_queue = clCreateCommandQueue(m_context, device_id, 0, &err);
+	m_queue = clCreateCommandQueue(m_context, device_id, 0, &err);
+	clRetainDevice(m_device_id);
+	clRetainContext(m_context);
+	clRetainCommandQueue(m_queue);
 }
 
 DeviceImpl::~DeviceImpl()
 {
+	if (m_device_id)
+		clReleaseDevice(m_device_id);
+	if (m_context)
+		clReleaseContext(m_context);
     if (m_queue)
         clReleaseCommandQueue(m_queue);
-    if (m_context)
-        clReleaseContext(m_context);
-    if (m_device_id)
-        clReleaseDevice(m_device_id);
 }
 
 cl_kernel DeviceImpl::get_kernel(const std::pair<const char *, const char *> & program) const

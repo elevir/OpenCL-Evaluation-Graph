@@ -1,5 +1,6 @@
 #include "ManagedData.h"
 #include <algorithm>
+#include <sstream>
 
 using namespace CLGraph;
 using namespace System;
@@ -109,4 +110,11 @@ bool CLGraph::Data::SetShapedData(array<double>^ shapedData)
 	/*std::vector<double> umShapedData(shapedData->Length);
 	InteropUtilities::CopyManagedArrayToVector(shapedData, umShapedData);
 	return m_data->set_shaped_data(umShapedData);*/
+}
+
+System::String^ CLGraph::Data::ToString()
+{
+	std::stringstream ss;
+	ss << *m_data;
+	return gcnew String(ss.str().c_str());
 }

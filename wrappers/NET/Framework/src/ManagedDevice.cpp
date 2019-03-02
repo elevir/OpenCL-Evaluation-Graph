@@ -3,37 +3,34 @@
 using namespace System::Collections::Generic;
 using namespace CLGraph;
 
-
-Device::Device(NativeDevice* device) : m_device(device)
-{
-}
+Device::Device(const NativeDevice& device) : m_device(new NativeDevice(device))
+{}
 
 CLGraph::Device::!Device()
 {
 	delete m_device;
 }
 
-CLGraph::Device::Device(Device^ device) : Device(device->m_device)
-{
-}
+CLGraph::Device::Device(Device^ device) : Device(*device->m_device)
+{}
 
-Device::Type Device::GetType()
+Device::DeviceType Device::GetDeviceType()
 {
 	cl_graph::Device::Type type = m_device->get_type();
 	switch (type)
 	{
 	case cl_graph::Device::DEFAULT:
-		return Type::DEFAULT;
+		return DeviceType::DEFAULT;
 	case cl_graph::Device::GPU:
-		return Type::GPU;
+		return DeviceType::GPU;
 	case cl_graph::Device::FPGA:
-		return Type::FPGA;
+		return DeviceType::FPGA;
 	case cl_graph::Device::CPU:
-		return Type::CPU;
+		return DeviceType::CPU;
 	case cl_graph::Device::NOT_CL_CPU:
-		return Type::NOT_CL_CPU;
+		return DeviceType::NOT_CL_CPU;
 	default:
-		return Type::INVALID;
+		return DeviceType::INVALID;
 	}
 }
 
@@ -45,23 +42,23 @@ SIZE_T Device::GetId()
 array<Device^>^ Device::GetAllDevices()
 {
 	std::vector<NativeDevice> umAllDevices = NativeDevice::get_all_devices();
-	array<Device^>^ allDevices = gcnew array<Device^>(umAllDevices.size());
+	auto allDevices = gcnew array<Device^>(umAllDevices.size());
 	for (int i = 0; i < umAllDevices.size(); ++i)
-		allDevices[i] = gcnew Device(new NativeDevice(umAllDevices[i]));
+		allDevices[i] = gcnew Device(umAllDevices[i]);
 	return allDevices;
 }
 
 Device^ CLGraph::Device::GetDefault()
 {
-	return gcnew Device(new NativeDevice(NativeDevice::get_default()));
+	return gcnew Device(NativeDevice::get_default());
 }
 
 const void Device::SetDefault(Device^ device)
 {
-	NativeDevice::set_default(NativeDevice(*device->m_device));
+	NativeDevice::set_default(*device->m_device);
 }
 
-const NativeDevice *Device::GetNativeDevice()
+const NativeDevice &Device::GetNativeDevice()
 {
-	return m_device;
+	return *m_device;
 }

@@ -34,7 +34,7 @@ public:
     // static methods, not thread safe:
 	static std::vector<Device> get_all_devices();
 	static Device get_default();
-	static const void set_default(Device & device);
+	static const void set_default(const Device& device);
 
 private:
     explicit Device();

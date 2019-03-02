@@ -12,10 +12,14 @@ namespace CLGraph {
 	public ref class Node sealed
 	{
 	public:
+		!Node();
 		Node(Node^ node);
 		Node(Data^ data);
 		Data^ Evaluate();
 		// static interface for node creation:
+
+		static operator Node^(Data^);
+
 		static Node^ AddNode(Node^ left, Node^ right, Device^ device);
 		static Node^ MulNode(Node^ left, Node^ right, Device^ device);
 		static Node^ ElementWiseMulNode(Node^ left, Node^ right, Device^ device);
@@ -27,7 +31,7 @@ namespace CLGraph {
 		NativeNode& GetNativeNode();
 
 	private:
-		NativeNode& m_node;
+		NativeNode* m_node;
 	};
 
 }

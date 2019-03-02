@@ -10,7 +10,7 @@ namespace CLGraph {
 	public ref class Device sealed
 	{
 	public:
-		enum class Type
+		enum class DeviceType
 		{
 			DEFAULT,        /**< Default type */
 			GPU,            /**< GPU Device */
@@ -22,7 +22,7 @@ namespace CLGraph {
 		!Device();
 		Device(Device^ device);
 
-		Type GetType();
+		DeviceType GetDeviceType();
 		SIZE_T GetId();
 
 		// static methods, not thread safe:
@@ -31,8 +31,8 @@ namespace CLGraph {
 		static const void SetDefault(Device^ device);
 
 	internal:
-		Device(NativeDevice* device);
-		const NativeDevice* GetNativeDevice();
+		Device(const NativeDevice& device);
+		const NativeDevice& GetNativeDevice();
 
 	private:
 		NativeDevice* m_device;

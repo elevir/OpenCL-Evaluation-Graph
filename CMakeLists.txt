@@ -7,10 +7,13 @@ include(GNUInstallDirs)
 
 add_subdirectory(library)
 add_subdirectory(tests)
-add_subdirectory(example)
+add_subdirectory(example/cplusplus)
+if (WIN32)
 add_subdirectory(wrappers/NET/Framework)
+add_subdirectory(example/dotnet)
+endif()
 
-set_target_properties( OpenCLEvaluationGraph Tests Example OpenCLEvaluationGraphManaged
+set_target_properties(OpenCLEvaluationGraph Tests Example OpenCLEvaluationGraphManaged ExampleDotNet
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
