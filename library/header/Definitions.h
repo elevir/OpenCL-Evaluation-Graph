@@ -1,23 +1,16 @@
 #pragma once
 
-#ifdef WIN32
-
 #ifndef OPENCL_EVAL_G_API
-
-#ifdef DllExport
-#define OPENCL_EVAL_G_API __declspec(dllexport) 
-#else
-#define OPENCL_EVAL_G_API __declspec(dllimport) 
-#endif
-
+#  ifdef WIN32
+#    ifdef OpenCLGraphExport
+#      define OPENCL_EVAL_G_API __declspec(dllexport)
+#    else
+#      define OPENCL_EVAL_G_API __declspec(dllimport)
+#    endif
+#  else
+#    define OPENCL_EVAL_G_API
+#  endif // WIN32
 #endif // !OPENCV_EVAL_G_API
-
-#else
-
-#define OPENCL_EVAL_G_API
-
-#endif // WIN32
-
 
 namespace cl_graph {
 

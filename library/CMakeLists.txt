@@ -60,7 +60,7 @@ if (APPLE)
     ADD_DEFINITIONS(-DCL_SILENCE_DEPRECATION)
 endif()
 
-add_definitions(-DDllExport)
+add_definitions(-DOpenCLGraphExport)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/oxygen/doxygen.cmake)
 ADD_DOCUMENTATION(doc Doxyfile)
