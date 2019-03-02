@@ -2,8 +2,9 @@
 
 #include "Definitions.h"
 
-#include <vector>
+#include <ostream>
 #include <memory>
+#include <vector>
 
 namespace cl_graph {
 
@@ -27,11 +28,12 @@ public:
 public:
 	Device();
 	Device(const Device &);
-	Device(Device &&);
+	Device(Device &&) noexcept;
 
 	Device & operator=(const Device & other);
-    Device & operator=(Device && other);
+    Device & operator=(Device && other) noexcept;
 
+    const char * get_device_name() const;
 	Type get_type() const;
 	size_t get_id() const;
     const std::shared_ptr<DeviceImpl> & get_impl() const { return m_device_impl; }
@@ -40,6 +42,9 @@ public:
 	static std::vector<Device> get_all_devices();
 	static Device get_default();
 	static const void set_default(Device & device);
+
+	void print(std::ostream & oss) const;
+    OPENCL_EVAL_G_API friend std::ostream & operator<<(std::ostream & oss, const Device & device);
 
 private:
 	explicit Device(Type type);

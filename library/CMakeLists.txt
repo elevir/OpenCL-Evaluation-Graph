@@ -58,6 +58,7 @@ endif()
 
 if (APPLE)
     ADD_DEFINITIONS(-DCL_SILENCE_DEPRECATION)
+    ADD_DEFINITIONS(-D__APPLE_CL__)
 endif()
 
 add_definitions(-DOpenCLGraphExport)

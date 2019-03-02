@@ -9,6 +9,10 @@
 
 int main()
 {
+    auto devices = cl_graph::Device::get_all_devices();
+    for (const auto & dev : devices) {
+        std::cout << dev << std::endl;
+    }
     // construct graph
     std::array<std::array<float, 2>, 2> matrix1 = {
         std::array<float, 2> {1.0f, -2.0f},

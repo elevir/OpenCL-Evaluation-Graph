@@ -13,13 +13,18 @@ std::vector<Device> Device::all_devices{};
 
 Device::Device() = default;
 Device::Device(const Device & other) = default;
-Device::Device(Device && other) = default;
+Device::Device(Device && other) noexcept = default;
 
 Device::Device(std::shared_ptr<DeviceImpl> device) :m_device_impl(std::move(device))
 { }
 
 Device & Device::operator=(const Device & other) = default;
-Device & Device::operator=(Device && other) = default;
+Device & Device::operator=(Device && other) noexcept = default;
+
+const char * Device::get_device_name() const
+{
+    return m_device_impl ? m_device_impl->get_device_name() : "INVALID";
+}
 
 std::vector<Device> Device::get_all_devices()
 {
@@ -84,5 +89,19 @@ Device::Type Device::get_type() const
     return INVALID;
 }
 
+void Device::print(std::ostream & oss) const
+{
+    if (m_device_impl) {
+        m_device_impl->print(oss);
+    } else {
+        oss << "[INVALID]";
+    }
+}
+
+std::ostream & operator<<(std::ostream & oss, const Device & device)
+{
+    device.print(oss);
+    return oss;
+}
 
 }

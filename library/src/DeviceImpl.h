@@ -17,6 +17,7 @@ public:
     explicit DeviceImpl(const cl_device_id & device_id);
     ~DeviceImpl();
 
+    const char * get_device_name() const { return m_device_name.c_str(); }
     Device::Type get_type() const { return m_type; }
 
     cl_context get_context() const { return m_context; }
@@ -27,6 +28,8 @@ public:
     std::vector<size_t> get_max_local_work_size() const { return m_local_work_size; }
 
     cl_kernel get_kernel(const std::pair<const char *, const char *> & program) const;
+
+    void print(std::ostream & oss) const;
 
 private:
     cl_kernel do_get_kernel(cl_program program, const char * name) const;
@@ -40,6 +43,7 @@ private:
     cl_context m_context = nullptr;
     cl_command_queue m_queue = nullptr;
 
+    std::string m_device_name = "NOT CL DEVICE";
     uint8_t m_cl_ver;
 
     std::vector<size_t> m_local_work_size;
