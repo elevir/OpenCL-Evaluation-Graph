@@ -22,6 +22,7 @@ public:
     Data(std::initializer_list<T> ... data);
     template<class ...T>
     Data(std::initializer_list<std::initializer_list<T>> ... data);
+    virtual ~Data();
 
     Data & operator=(const Data &) = default;
     Data & operator=(Data &&) = default;

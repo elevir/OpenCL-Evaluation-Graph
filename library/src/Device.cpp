@@ -18,6 +18,8 @@ Device::Device(Device && other) noexcept = default;
 Device::Device(std::shared_ptr<DeviceImpl> device) :m_device_impl(std::move(device))
 { }
 
+Device::~Device() = default;
+
 Device & Device::operator=(const Device & other) = default;
 Device & Device::operator=(Device && other) noexcept = default;
 
@@ -71,7 +73,7 @@ Device Device::get_default()
 	return default_device;
 }
 
-const void Device::set_default(const Device & device)
+void Device::set_default(const Device & device)
 {
 	default_device = device;
 }

@@ -10,10 +10,10 @@ class OPENCL_EVAL_G_API Node
     Node(INode * impl);
 public:
 	Node() = default;
-	Node(Node &);
+	Node(const Node &);
 	Node(Node &&) = default;
 	Node(const Data &);
-	~Node();
+	virtual ~Node();
 	
 	Data evaluate();
 

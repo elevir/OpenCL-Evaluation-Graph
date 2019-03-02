@@ -8,16 +8,22 @@ include(GNUInstallDirs)
 add_subdirectory(library)
 add_subdirectory(tests)
 add_subdirectory(example/cplusplus)
+add_subdirectory(wrappers/C)
 
+set(OPTIONAL_PROJECTS)
 if (WIN32)
-set(WIN32_PROJECTS OpenCLEvaluationGraphManaged ExampleDotNet)
+set(OPTIONAL_PROJECTS ${OPTIONAL_PROJECTS} OpenCLEvaluationGraphManaged ExampleDotNet)
 add_subdirectory(wrappers/NET/Framework)
 add_subdirectory(example/dotnet)
-else()
-set(WIN32_PROJECTS)
 endif()
 
-set_target_properties(OpenCLEvaluationGraph Tests Example ${WIN32_PROJECTS}
+#find_package(JNI)
+#if (JNI_FOUND)
+#set(OPTIONAL_PROJECTS ${OPTIONAL_PROJECTS} OpenCLEvaluationGraphJava)
+#add_subdirectory(wrappers/Java)
+#endif()
+
+set_target_properties(OpenCLEvaluationGraph Tests Example ${OPTIONAL_PROJECTS}
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"

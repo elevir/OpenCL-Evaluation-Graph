@@ -19,6 +19,8 @@ Data::Data()
     m_impl = std::make_shared<DataImpl>();
 }
 
+Data::~Data() = default;
+
 bool Data::download(std::vector<float> & data, std::vector<size_t> & shape) const
 {
     if (m_impl) {

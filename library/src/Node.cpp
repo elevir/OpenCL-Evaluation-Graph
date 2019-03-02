@@ -25,7 +25,7 @@ Node::Node(const Data & data)
     : m_impl(new NodeData(data))
 { }
 
-Node::Node(Node & node) : m_impl(node.m_impl)
+Node::Node(const Node & node) : m_impl(node.m_impl)
 { }
 
 Node::~Node() = default;
