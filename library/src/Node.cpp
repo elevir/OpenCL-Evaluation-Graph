@@ -1,10 +1,10 @@
 
-#include <Node.h>
+#include <cl_graph/Node.h>
 
-#include "Data.h"
-#include "Device.h"
+#include "cl_graph/Data.h"
+#include "cl_graph/Device.h"
 #include "INode.h"
-#include "Node.h"
+#include "cl_graph/Node.h"
 
 #include "NodeAbs.h"
 #include "NodeAdd.h"

@@ -1,6 +1,6 @@
 #include "NodeMul.h"
 
-#include "Data.h"
+#include "cl_graph/Data.h"
 #include "DataImpl.h"
 #include "DeviceImpl.h"
 

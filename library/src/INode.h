@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Definitions.h"
+#include "cl_graph/Definitions.h"
 
-#include "Data.h"
+#include "cl_graph/Data.h"
 
 namespace cl_graph {
 

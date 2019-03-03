@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Device.h"
+#include "cl_graph/Device.h"
 #include "NodeUnaryOp.h"
 
 namespace cl_graph {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Node.h"
+#include "cl_graph/Node.h"
 #include "Utilities.hpp"
 #include "ManagedData.h"
 #include "ManagedDevice.h"

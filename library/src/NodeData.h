@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Definitions.h"
-#include "Data.h"
+#include "cl_graph/Definitions.h"
+#include "cl_graph/Data.h"
 #include "INode.h"
 
 namespace cl_graph {

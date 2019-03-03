@@ -40,13 +40,13 @@ OPENCL_EVAL_C_API void devices_destruct(ClGraphDevice ** devices, size_t size);
 OPENCL_EVAL_C_API ClGraphDevice * device_get_default();
 OPENCL_EVAL_C_API void set_default(const ClGraphDevice * device);
 
+OPENCL_EVAL_C_API void device_destruct(ClGraphDevice * device);
 OPENCL_EVAL_C_API const char * get_device_name(ClGraphDevice * device);
-OPENCL_EVAL_C_API int8_t get_device_type(ClGraphDevice * device);
-OPENCL_EVAL_C_API size_t get_device_id(ClGraphDevice * device);
+OPENCL_EVAL_C_API int8_t device_get_device_type(ClGraphDevice * device);
+OPENCL_EVAL_C_API size_t device_get_device_id(ClGraphDevice * device);
 OPENCL_EVAL_C_API char * device_print(ClGraphDevice * device);
 
 // Nodes
-OPENCL_EVAL_C_API ClGraphNode * node_data(ClGraphData * data);
 OPENCL_EVAL_C_API ClGraphNode * node_add_node(ClGraphNode * left, ClGraphNode * right, const ClGraphDevice * device);
 OPENCL_EVAL_C_API ClGraphNode * node_sub_node(ClGraphNode * left, ClGraphNode * right, const ClGraphDevice * device);
 OPENCL_EVAL_C_API ClGraphNode * node_unary_minus_node(ClGraphNode * op, const ClGraphDevice * device);
@@ -56,6 +56,9 @@ OPENCL_EVAL_C_API ClGraphNode * node_element_wise_mul_node(ClGraphNode * left, C
 OPENCL_EVAL_C_API ClGraphNode * node_element_wise_div_node(ClGraphNode * left, ClGraphNode * right, const ClGraphDevice * device);
 OPENCL_EVAL_C_API ClGraphNode * node_abs_node(ClGraphNode * op, const ClGraphDevice * device);
 OPENCL_EVAL_C_API ClGraphNode * node_sqrt_node(ClGraphNode * op, const ClGraphDevice * device);
+
+OPENCL_EVAL_C_API ClGraphNode * node_data(ClGraphData * data);
+OPENCL_EVAL_C_API ClGraphData * node_evaluate(ClGraphNode * node);
 OPENCL_EVAL_C_API void node_destruct(ClGraphNode * node);
 
 }

@@ -1,9 +1,9 @@
-#include "Data.h"
+#include "cl_graph/Data.h"
 #include "DataImpl.h"
 
 #include <assert.h>
 #include <ostream>
-#include <Data.h>
+#include <cl_graph/Data.h>
 
 
 namespace cl_graph {

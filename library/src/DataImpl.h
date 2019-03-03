@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Definitions.h"
+#include "cl_graph/Definitions.h"
 #include <cstddef>
 #include <vector>
 
-#include "Device.h"
+#include "cl_graph/Device.h"
 #include "helpers/opencl.h"
 
 namespace cl_graph {

@@ -1,7 +1,7 @@
 
-#include <Device.h>
+#include <cl_graph/Device.h>
 
-#include "Device.h"
+#include "cl_graph/Device.h"
 #include "DeviceImpl.h"
 
 #include "helpers/opencl.h"

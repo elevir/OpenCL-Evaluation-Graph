@@ -1,6 +1,6 @@
 #include "com_clgraph_Data.h"
 
-#include "ClGraphDefs.h"
+#include "c_cl_graph/ClGraphDefs.h"
 
 #include <vector>
 
@@ -8,10 +8,16 @@
 extern "C" {
 #endif
 
+static_assert(sizeof(jlong) >= sizeof(ClGraphData *), "cannot pass pointer to java with jlong less then size_t");
+
 JNIEXPORT jlong JNICALL Java_com_clgraph_Data_init(JNIEnv *, jobject)
 {
-    assert(sizeof(jlong) >= sizeof(size_t) && "cannot pass pointer to java with jlong less then size_t");
     return (jlong)data_empty_create();
+}
+
+JNIEXPORT void JNICALL Java_com_clgraph_Data_deInit(JNIEnv *, jobject, jlong ptr)
+{
+    data_destruct((ClGraphData*) ptr);
 }
 
 JNIEXPORT jboolean JNICALL Java_com_clgraph_Data_upload (JNIEnv * env, jobject, jlong ptr, jfloatArray tensor, jlongArray shape)

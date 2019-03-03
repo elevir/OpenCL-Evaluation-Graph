@@ -16,14 +16,14 @@ class OPENCL_EVAL_G_API Device
 public:
 
     /** Type of device */
-    enum Type {
-        DEFAULT,        /**< Default type */
-        GPU,            /**< GPU Device */
-        FPGA,           /**< FPGE Device */
-        CPU,            /**< CPU Device */
-        NOT_CL_CPU,     /**< CPU Device with CL */
-        INVALID         /**< Invalid device */
-    };
+	enum Type {
+		DEFAULT = 0,        /**< Default type */
+		GPU = 1,            /**< GPU Device */
+		FPGA = 2,           /**< FPGE Device */
+		CPU = 4,            /**< CPU Device */
+		NOT_CL_CPU = 8,     /**< CPU Device with CL */
+		INVALID = -1        /**< Invalid device */
+	};
 
 public:
 	Device();

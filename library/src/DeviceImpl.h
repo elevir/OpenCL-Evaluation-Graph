@@ -1,7 +1,7 @@
 #pragma once
 #include "helpers/opencl.h"
 
-#include "Device.h"
+#include "cl_graph/Device.h"
 
 #include <map>
 #include <mutex>

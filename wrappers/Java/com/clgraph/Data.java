@@ -1,22 +1,42 @@
 package com.clgraph;
 
-import java.util.ArrayList;
-
 public class Data {
 
-    private long dataPtr;
+    long dataPtr = 0;
 
     static {
         System.loadLibrary("OpenCLEvaluationGraphJava");
+    }
+
+    Data(long ptr) {
+        dataPtr = ptr;
     }
 
     public Data() {
         dataPtr = init();
     }
 
-    public Data(float tensor[], long shape[]) {
+    protected void finalize() {
+        deInit(dataPtr);
+        dataPtr = 0;
+    }
+
+    public Data(float[] tensor, long[] shape) {
         dataPtr = init();
         upload(tensor, shape);
+    }
+
+    public Data(float[] vector) {
+        dataPtr = init();
+        long[] shape = {vector.length};
+        upload(vector, shape);
+    }
+
+    public Data(float scalar) {
+        dataPtr = init();
+        float[] dt = { scalar };
+        long[] shape = { 1 };
+        upload(dt, shape);
     }
 
     public boolean upload(float tensor[], long shape[]) {
@@ -40,6 +60,7 @@ public class Data {
     }
 
     private native long init();
+    private native void deInit(long ptr);
 
     private native boolean upload(long ptr, float tensor[], long shape[]);
 

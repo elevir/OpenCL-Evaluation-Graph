@@ -1,5 +1,5 @@
 #pragma once
-#include <Data.h>
+#include <cl_graph/Data.h>
 #include "Utilities.hpp"
 
 namespace CLGraph {

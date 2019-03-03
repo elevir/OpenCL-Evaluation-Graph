@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Definitions.h"
+#include "cl_graph/Definitions.h"
 
 #include "NodeTwoOp.h"
 

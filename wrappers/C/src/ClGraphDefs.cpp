@@ -2,14 +2,14 @@
 // Created by pav on 2019-03-02.
 //
 
-#include <ClGraphDefs.h>
+#include <c_cl_graph/ClGraphDefs.h>
 
-#include "ClGraphDefs.h"
+#include "c_cl_graph/ClGraphDefs.h"
 
-#include "Definitions.h"
-#include "Data.h"
-#include "Device.h"
-#include "Node.h"
+#include "cl_graph/Definitions.h"
+#include "cl_graph/Data.h"
+#include "cl_graph/Device.h"
+#include "cl_graph/Node.h"
 
 #include <sstream>
 
@@ -18,20 +18,27 @@ namespace
 char * print_ss_to_buf(const std::stringstream & ss)
 {
     const auto & str = ss.str();
-    char * buf = (char *)malloc(sizeof(const char) * str.size());
+    char * buf = (char *)malloc(sizeof(const char) * str.size() + 1);
     if (!buf) {
         return nullptr;
     }
     for (size_t i = 0; i < str.size(); ++i) {
         buf[i] = str[i];
     }
+    buf[str.size()] = 0;
     return buf;
 }
 }
 
 struct ClGraphData : public cl_graph::Data
 {
+    ClGraphData() : cl_graph::Data() {};
+    ClGraphData(const cl_graph::Data & data) : cl_graph::Data(data) {}
+    ClGraphData(ClGraphData &&) = delete;
     ~ClGraphData() override = default;
+
+    ClGraphData & operator=(const ClGraphData &) = delete;
+    ClGraphData & operator=(ClGraphData &&) = delete;
 };
 
 struct ClGraphDevice : public cl_graph::Device
@@ -155,8 +162,14 @@ bool get_all_devices(ClGraphDevice *** devices, size_t * size)
 void devices_destruct(ClGraphDevice ** devices, size_t size)
 {
     for (size_t i = 0; i < size; ++i) {
-        delete devices[i];
+        device_destruct(devices[i]);
     }
+    free(devices);
+}
+
+void device_destruct(ClGraphDevice * device)
+{
+    delete device;
 }
 
 ClGraphDevice * device_get_default()
@@ -174,12 +187,12 @@ const char * get_device_name(ClGraphDevice * device)
     return device->get_device_name();
 }
 
-int8_t get_device_type(ClGraphDevice * device)
+int8_t device_get_device_type(ClGraphDevice * device)
 {
     return device->get_type();
 }
 
-size_t get_device_id(ClGraphDevice * device)
+size_t device_get_device_id(ClGraphDevice * device)
 {
     return device->get_id();
 }
@@ -189,11 +202,6 @@ char * device_print(ClGraphDevice * device)
     std::stringstream ss;
     ss << (*device);
     return print_ss_to_buf(ss);
-}
-
-ClGraphNode * node_data(ClGraphData * data)
-{
-    return new ClGraphNode(*data);
 }
 
 ClGraphNode * node_add_node(ClGraphNode * left, ClGraphNode * right, const ClGraphDevice * device)
@@ -247,6 +255,16 @@ ClGraphNode * node_sqrt_node(ClGraphNode * op, const ClGraphDevice * device)
 {
     const cl_graph::Device & d = device ? ClGraphDevice::get_default() : *(cl_graph::Device*)device;
     return new ClGraphNode(cl_graph::Node::sqrt_node(*op, d));
+}
+
+ClGraphNode * node_data(ClGraphData * data)
+{
+    return new ClGraphNode(*data);
+}
+
+ClGraphData * node_evaluate(ClGraphNode * node)
+{
+    return new ClGraphData(node->evaluate());
 }
 
 void node_destruct(ClGraphNode * node)

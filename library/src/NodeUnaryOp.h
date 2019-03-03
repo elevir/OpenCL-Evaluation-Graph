@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "Device.h"
+#include "cl_graph/Device.h"
 #include "INode.h"
-#include "Node.h"
+#include "cl_graph/Node.h"
 
 namespace cl_graph {
 
