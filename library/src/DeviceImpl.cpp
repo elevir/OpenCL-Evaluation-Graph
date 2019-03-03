@@ -37,14 +37,16 @@ DeviceImpl::DeviceImpl(const cl_device_id & device_id) : m_device_id(device_id)
     m_queue = clCreateCommandQueue(m_context, device_id, 0, &err);
     if (m_device_id && release_retain_supported())
         clRetainDevice(m_device_id);
+    clRetainCommandQueue(m_queue);
+    clRetainContext(m_context);
 }
 
 DeviceImpl::~DeviceImpl()
 {
-    if (m_queue)
-        clReleaseCommandQueue(m_queue);
     if (m_context)
         clReleaseContext(m_context);
+    if (m_queue)
+      clReleaseCommandQueue(m_queue);
     if (m_device_id && release_retain_supported())
         clReleaseDevice(m_device_id);
 }
