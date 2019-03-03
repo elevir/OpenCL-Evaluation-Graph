@@ -17,11 +17,16 @@ add_subdirectory(wrappers/NET/Framework)
 add_subdirectory(example/dotnet)
 endif()
 
-#find_package(JNI)
-#if (JNI_FOUND)
-#set(OPTIONAL_PROJECTS ${OPTIONAL_PROJECTS} OpenCLEvaluationGraphJava)
-#add_subdirectory(wrappers/Java)
-#endif()
+find_package(Java)
+find_package(JNI)
+if (JNI_FOUND)
+    if (Java_FOUND)
+        include(UseJava)
+        add_subdirectory(wrappers/Java)
+        add_subdirectory(example/Java)
+        set(OPTIONAL_PROJECTS ${OPTIONAL_PROJECTS} OpenCLEvaluationGraphJava ExampleJava)
+    endif()
+endif()
 
 set_target_properties(OpenCLEvaluationGraph Tests Example ${OPTIONAL_PROJECTS}
     PROPERTIES

@@ -55,9 +55,14 @@ struct ClGraphNode : public cl_graph::Node
     ClGraphNode & operator=(ClGraphNode &&) = delete;
 };
 
+OPENCL_EVAL_C_API ClGraphData * data_empty_create()
+{
+    return new ClGraphData();
+}
+
 ClGraphData * data_create(const float * tensor, size_t size, const size_t * shape, size_t shape_size)
 {
-    auto data = new ClGraphData();
+    auto data = data_empty_create();
     bool ret = data_upload_data(data, tensor, size, shape, shape_size);
     if (!ret) {
         delete data;

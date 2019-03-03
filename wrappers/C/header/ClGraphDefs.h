@@ -26,6 +26,7 @@ struct OPENCL_EVAL_C_API ClGraphDevice;
 struct OPENCL_EVAL_C_API ClGraphNode;
 
 // ClGraphData
+OPENCL_EVAL_C_API ClGraphData * data_empty_create();
 OPENCL_EVAL_C_API ClGraphData * data_create(const float * tensor, size_t size, const size_t * shape, size_t shape_size);
 OPENCL_EVAL_C_API void data_destruct(ClGraphData * data);
 OPENCL_EVAL_C_API bool data_upload_data(ClGraphData * data, const float * tensor, size_t size, const size_t * shape, size_t shape_size);

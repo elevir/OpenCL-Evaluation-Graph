@@ -1,4 +1,3 @@
-
 add_library(OpenCLEvaluationGraphC SHARED src/ClGraphDefs.cpp header/ClGraphDefs.h)
 
 target_link_libraries(OpenCLEvaluationGraphC OpenCLEvaluationGraph)

@@ -20,10 +20,7 @@ int main()
     };
     cl_graph::Data data1 = matrix1;
 
-    float matrix2[2][2] = {{5.0f, 6.0f}, {-7.0f, 8.0f}};
     cl_graph::Data data2 = {{5.0f, 6.0f}, {-7.0f, 8.0f}};
-//    cl_graph::Data data3 = {{{5.0f, 3.f}, {6.0f, 7.f}}, {{-7.0f, 9.f}, {12.f, 8.0f}}};
-//    std::cout << data3;
     cl_graph::Data scalar = 9;
 
     auto add_node = cl_graph::Node::add_node(data1, data2);
