@@ -65,6 +65,11 @@ ClGraphData * data_create(const float * tensor, size_t size, const size_t * shap
     return data;
 }
 
+void data_destruct(ClGraphData * data)
+{
+    delete data;
+}
+
 bool data_upload_data(ClGraphData * data, const float * tensor, size_t size, const size_t * shape, size_t shape_size)
 {
     std::vector<float> dt;
@@ -142,6 +147,12 @@ bool get_all_devices(ClGraphDevice *** devices, size_t * size)
     return true;
 }
 
+void devices_destruct(ClGraphDevice ** devices, size_t size)
+{
+    for (size_t i = 0; i < size; ++i) {
+        delete devices[i];
+    }
+}
 
 ClGraphDevice * device_get_default()
 {
@@ -227,8 +238,14 @@ ClGraphNode * node_abs_node(ClGraphNode * op, const ClGraphDevice * device)
     return new ClGraphNode(cl_graph::Node::abs_node(*op, d));
 }
 
-ClGraphNode * node_sqrt_node(ClGraphNode * op, const ClGraphDevice * device) {
+ClGraphNode * node_sqrt_node(ClGraphNode * op, const ClGraphDevice * device)
+{
     const cl_graph::Device & d = device ? ClGraphDevice::get_default() : *(cl_graph::Device*)device;
     return new ClGraphNode(cl_graph::Node::sqrt_node(*op, d));
+}
+
+void node_destruct(ClGraphNode * node)
+{
+    delete node;
 }
 
